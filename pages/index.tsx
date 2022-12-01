@@ -1,8 +1,33 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { ProviderKeeper } from '@waves/provider-keeper'
+import { Signer } from '@waves/signer'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+  const [address, setAddress] = useState<string>('')
+  const [msg, setMsg] = useState<string>('')
+  const testSign = async (value: object) => {
+    const signer = new Signer({
+      // Specify URL of the node on Testnet
+      NODE_URL: 'https://nodes-testnet.wavesnodes.com',
+    })
+    const provider = new ProviderKeeper()
+
+    await signer.setProvider(provider)
+
+    const userData = await signer.login()
+    const signature = await signer.signMessage(JSON.stringify(value))
+
+    setMsg(signature)
+    setAddress(userData.publicKey)
+
+    console.log(signature, userData.publicKey)
+
+    return true
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,15 +37,17 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        <button onClick={() => testSign({ name: 'amen', controller: '2rJ1AQ2M8tW5tdEyhBG55XFgg7NwuHvYVDCSScWVV7y6' })}>
+          Sign message
+        </button>
+        Signed message: <input type="text" value={msg} />
+        Address: <input type="text" value={address} />
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          Get started by editing <code className={styles.code}>pages/index.tsx</code>
         </p>
-
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>
@@ -32,10 +59,7 @@ export default function Home() {
             <p>Learn about Next.js in an interactive course with quizzes!</p>
           </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
+          <a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
             <h2>Examples &rarr;</h2>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
@@ -47,9 +71,7 @@ export default function Home() {
             className={styles.card}
           >
             <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+            <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
           </a>
         </div>
       </main>
