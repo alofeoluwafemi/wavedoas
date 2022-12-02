@@ -2,7 +2,7 @@ import { recoverTypedSignature } from '@metamask/eth-sig-util'
 import { wavesAddress2eth } from '@waves/node-api-js'
 import { stringToBytes, verifySignature } from '@waves/ts-lib-crypto'
 import { SignatureOptions, SignatureVerifier, SignedMessageMode } from 'spaces/adapters/signatureVerifier'
-import { NodeEnvironment } from '../../spaces/logic/spaceCreator'
+import { NodeEnvironment } from 'spaces/logic/spaceWriter'
 
 export class MetamaskSignatureVerifier extends SignatureVerifier {
   public mode: SignedMessageMode = SignedMessageMode.METAMASK
