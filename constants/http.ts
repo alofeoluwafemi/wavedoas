@@ -1,8 +1,15 @@
 export enum ResponseStatusCode {
+  OK = 200,
   Created = 201,
 
-  METHOD_NOT_ALLOWED = 405,
+  NotFound = 404,
+  MethodNotAllowed = 405,
   UnprocessableEntity = 422,
 
-  ServerError = 500,
+  InternalServerError = 500,
+}
+
+export enum ResponseMessage {
+  InternalServerError = 'Internal server error',
+  NotFound = 'Not found',
 }

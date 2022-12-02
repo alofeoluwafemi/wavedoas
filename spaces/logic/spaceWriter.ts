@@ -1,15 +1,14 @@
 import { SignatureOptions, SignatureVerifier, SignedMessageMode } from 'spaces/adapters/signatureVerifier'
 import { MetamaskSignatureVerifier, WaveSignatureVerifier } from 'web3/waves/signatureVerifier'
 import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
-import pinataSDK from '@pinata/sdk'
-import { PINATA_API_KEY, PINATA_API_SECRET_KEY } from 'constants/pinata'
+import { Space } from 'spaces/dto/space'
 
 export type SpaceCreateParams = {
   name: string
   slug?: string
   description?: string
   categories: string[]
-  logo?: string
+  logo: string
   website?: string
   socials?: string[]
   controller: string
@@ -17,20 +16,8 @@ export type SpaceCreateParams = {
   authors?: string[]
   signedMessage: string
 }
-type Space = {
-  name: string
-  slug: string
-  description?: string
-  categories: string[]
-  logo?: string
-  website?: string
-  socials?: string[]
-  admins?: string[]
-  authors?: string[]
-  members?: string[]
-}
 
-export interface SpaceCreateDb {
+export interface SpaceWriterDb {
   generateSlug(name: string): Promise<string>
 
   save(input: SpaceCreateParams, signatureVerifier: SignatureVerifier): Promise<void>
@@ -48,11 +35,11 @@ export class ControllerDidNotSign extends Error {
   }
 }
 
-export class SpaceCreator {
+export class SpaceWriter {
   private readonly signatureVerifier: SignatureVerifier
-  private readonly db: SpaceCreateDb
+  private readonly db: SpaceWriterDb
 
-  constructor(signature: SignatureVerifier, dbAdapter: SpaceCreateDb) {
+  constructor(signature: SignatureVerifier, dbAdapter: SpaceWriterDb) {
     this.signatureVerifier = signature
     this.db = dbAdapter
   }
@@ -67,16 +54,17 @@ export class SpaceCreator {
     await this.db.save(input, signatureVerifier)
 
     return {
+      controller: input.controller,
       admins: input.admins,
       authors: input.authors,
       categories: input.categories,
-      description: input.description,
-      logo: input.logo,
+      description: input.description as string,
+      logo: input.logo as string,
       members: [],
-      name: input.name,
-      slug: input.slug,
+      name: input.name as string,
+      slug: input.slug as string,
       socials: input.socials,
-      website: input.website,
+      website: input.website as string,
     }
   }
 
@@ -88,8 +76,7 @@ export class SpaceCreator {
         ? MetamaskSignatureVerifier.makeFromOptions(signatureOptions)
         : WaveSignatureVerifier.makeFromOptions(signatureOptions)
 
-    const pinataSpaceAdapter = new PinataSpaceAdapter(new pinataSDK(PINATA_API_KEY, PINATA_API_SECRET_KEY))
-    return new SpaceCreator(verifier, pinataSpaceAdapter)
+    return new SpaceWriter(verifier, PinataSpaceAdapter.makeFromPinataSdk())
   }
 }
 
