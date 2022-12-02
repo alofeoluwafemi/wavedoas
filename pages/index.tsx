@@ -3,9 +3,11 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { ProviderKeeper } from '@waves/provider-keeper'
 import { Signer } from '@waves/signer'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import axios from 'axios'
 
-export default function Home() {
+export default function Home({ space }: { space: object }) {
+  console.log(space, 2)
   const [address, setAddress] = useState<string>('')
   const [msg, setMsg] = useState<string>('')
   const testSign = async (value: object) => {
@@ -27,6 +29,7 @@ export default function Home() {
 
     return true
   }
+  testShow()
 
   return (
     <div className={styles.container}>
@@ -37,11 +40,13 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <button onClick={() => testSign({ name: 'amen', controller: '2rJ1AQ2M8tW5tdEyhBG55XFgg7NwuHvYVDCSScWVV7y6' })}>
+        <button
+          onClick={() => testSign({ name: 'Test Dao', controller: '2rJ1AQ2M8tW5tdEyhBG55XFgg7NwuHvYVDCSScWVV7y6' })}
+        >
           Sign message
         </button>
-        Signed message: <input type="text" value={msg} />
-        Address: <input type="text" value={address} />
+        Signed message: <input type="text" defaultValue={msg} />
+        Address: <input type="text" defaultValue={address} />
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -90,4 +95,18 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+async function testIpfs() {
+  const response = await axios({
+    method: 'get',
+    url: `https://gateway.pinata.cloud/ipfs/${'QmVFHSuYDXD4s7nhhuTAp4douyinatb1r5qJpJjo99Lp11'}`,
+  })
+  console.log(response.data)
+}
+
+async function testShow() {
+  const res = await fetch(`http://localhost:3000/api/spaces/show?slug=test-dao`)
+  const space = await res.json()
+  console.log(space)
 }
