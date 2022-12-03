@@ -1,14 +1,13 @@
 import { recoverTypedSignature } from '@metamask/eth-sig-util'
 import { wavesAddress2eth } from '@waves/node-api-js'
 import { stringToBytes, verifySignature } from '@waves/ts-lib-crypto'
-import { SignatureOptions, SignatureVerifier, SignedMessageMode } from 'spaces/adapters/signatureVerifier'
+import { SignatureVerifierOptions, SignatureVerifier, SignedMessageMode } from 'spaces/adapters/signatureVerifier'
 import { NodeEnvironment } from 'spaces/logic/spaceWriter'
 
 export class MetamaskSignatureVerifier extends SignatureVerifier {
-  public mode: SignedMessageMode = SignedMessageMode.METAMASK
-
-  static makeFromOptions(signatureOptions: SignatureOptions) {
-    return new this(signatureOptions)
+  constructor(options: SignatureVerifierOptions) {
+    super(options)
+    this.mode = SignedMessageMode.METAMASK
   }
 
   async verify(): Promise<boolean> {
@@ -51,9 +50,5 @@ export class WaveSignatureVerifier extends SignatureVerifier {
     const uint8Array = stringToBytes(this.message)
     // @ts-ignore
     return verifySignature(this.signer, [255, 255, 255, 1, ...uint8Array], this.signature)
-  }
-
-  static makeFromOptions(signatureOptions: SignatureOptions) {
-    return new this(signatureOptions)
   }
 }

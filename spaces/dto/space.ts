@@ -1,4 +1,4 @@
-import { SignatureOptions } from 'spaces/adapters/signatureVerifier'
+import { SignatureVerifierOptions } from 'spaces/adapters/signatureVerifier'
 import { DbProposal, dbProposalToProposal, Proposal } from 'proposals/logic/proposalWriter'
 
 type DbSpaceData = {
@@ -18,7 +18,7 @@ export type DbSpace = {
   data: DbSpaceData
   proposals: DbProposal[]
   members: string[]
-  signature: SignatureOptions
+  signature: SignatureVerifierOptions
 }
 
 export type Space = DbSpaceData & {

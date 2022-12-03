@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { SpaceWriter, VerifySignatureError } from 'spaces/logic/spaceWriter'
 import { ResponseMessage, ResponseStatusCode } from 'constants/http'
-import { makeVerifierFromInput } from 'spaces/adapters/signatureVerifier'
 import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
+import { makeVerifierFromInput } from 'utilities/signature'
 
 export default async function (req: NextApiRequest, resp: NextApiResponse) {
   if (!['POST'].includes(req.method?.toUpperCase() as string)) {
@@ -11,12 +11,10 @@ export default async function (req: NextApiRequest, resp: NextApiResponse) {
   }
 
   try {
-    const spaceCreator = new SpaceWriter(
+    const createdSpace = await new SpaceWriter(
       makeVerifierFromInput(req.body?.signature),
       PinataSpaceAdapter.makeFromPinataSdk()
-    )
-
-    const createdSpace = await spaceCreator.create(req.body?.space)
+    ).create(req.body?.space)
 
     return resp.status(ResponseStatusCode.Created).json(createdSpace)
   } catch (e) {
