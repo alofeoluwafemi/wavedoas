@@ -18,6 +18,7 @@
     "@waves/provider-keeper": "^1.1.1",
     "@waves/provider-metamask": "^1.1.6",
     "@waves/signer": "^1.1.0",
+    "@waves/waves-transactions": "^4.2.10",
     "axios": "^1.2.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
