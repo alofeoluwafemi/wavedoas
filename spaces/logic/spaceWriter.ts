@@ -1,7 +1,5 @@
-import { SignatureOptions, SignatureVerifier, SignedMessageMode } from 'spaces/adapters/signatureVerifier'
-import { MetamaskSignatureVerifier, WaveSignatureVerifier } from 'web3/waves/signatureVerifier'
-import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
-import { Space } from 'spaces/dto/space'
+import { SignatureVerifier } from 'spaces/adapters/signatureVerifier'
+import { DbSpace, dbSpaceToSpace, Space } from 'spaces/dto/space'
 
 export type SpaceCreateParams = {
   name: string
@@ -19,8 +17,8 @@ export type SpaceCreateParams = {
 
 export interface SpaceWriterDb {
   generateSlug(name: string): Promise<string>
-
-  save(input: SpaceCreateParams, signatureVerifier: SignatureVerifier): Promise<void>
+  save(input: DbSpace): Promise<DbSpace>
+  update(space: DbSpace): Promise<DbSpace>
 }
 
 export class VerifySignatureError extends Error {
@@ -45,38 +43,29 @@ export class SpaceWriter {
   }
 
   async create(input: SpaceCreateParams): Promise<Space> {
-    const signatureVerifier = this.signatureVerifier
-    if (!(await signatureVerifier.verify())) throw new VerifySignatureError()
-    if (signatureVerifier.signer !== input.controller) throw new ControllerDidNotSign()
+    if (!(await this.signatureVerifier.verifyObjectMessage(input))) throw new VerifySignatureError()
+    if (this.signatureVerifier.signer !== input.controller) throw new ControllerDidNotSign()
 
-    input.slug = input.slug ?? (await this.db.generateSlug(input.name))
-
-    await this.db.save(input, signatureVerifier)
-
-    return {
-      controller: input.controller,
-      admins: input.admins,
-      authors: input.authors,
-      categories: input.categories,
-      description: input.description as string,
-      logo: input.logo as string,
+    const space: DbSpace = {
+      data: {
+        controller: input.controller,
+        admins: input.admins ?? [],
+        authors: input.authors ?? [],
+        categories: input.categories,
+        description: input.description as string,
+        logo: input.logo as string,
+        name: input.name as string,
+        slug: input.slug ?? (await this.db.generateSlug(input.name)),
+        socials: input.socials,
+        website: input.website as string,
+      },
+      proposals: [],
       members: [],
-      name: input.name as string,
-      slug: input.slug as string,
-      socials: input.socials,
-      website: input.website as string,
+      signature: this.signatureVerifier.getOptions(),
     }
-  }
 
-  static makeSpaceCreatorWithPinataAndWaveSignatureVerifier(signatureOptions: SignatureOptions, input: object) {
-    signatureOptions.message = JSON.stringify(input)
-
-    const verifier: SignatureVerifier =
-      signatureOptions.mode === SignedMessageMode.METAMASK
-        ? MetamaskSignatureVerifier.makeFromOptions(signatureOptions)
-        : WaveSignatureVerifier.makeFromOptions(signatureOptions)
-
-    return new SpaceWriter(verifier, PinataSpaceAdapter.makeFromPinataSdk())
+    await this.db.save(space)
+    return dbSpaceToSpace(space)
   }
 }
 

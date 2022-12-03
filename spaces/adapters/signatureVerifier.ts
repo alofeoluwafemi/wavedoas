@@ -1,3 +1,5 @@
+import { MetamaskSignatureVerifier, WaveSignatureVerifier } from 'web3/waves/signatureVerifier'
+
 export enum SignedMessageMode {
   METAMASK = 'METAMASK',
   WAVE = 'WAVE',
@@ -11,7 +13,7 @@ export type SignatureOptions = {
 }
 
 export abstract class SignatureVerifier {
-  private readonly _message: string
+  private _message: string
   private readonly _signature: string
   private readonly _signer: string
   public mode: SignedMessageMode = SignedMessageMode.WAVE
@@ -28,11 +30,31 @@ export abstract class SignatureVerifier {
     return this._signer
   }
 
-  protected constructor(options: SignatureOptions) {
+  public constructor(options: SignatureOptions) {
     this._message = options.message
     this._signature = options.signature
     this._signer = options.signer
   }
 
   abstract verify(): Promise<boolean>
+
+  verifyObjectMessage(message: object): Promise<boolean> {
+    this._message = JSON.stringify(message)
+    return this.verify()
+  }
+
+  getOptions(): SignatureOptions {
+    return {
+      message: this.message,
+      mode: this.mode,
+      signature: this.signature,
+      signer: this.signer,
+    }
+  }
+}
+
+export function makeVerifierFromInput(signatureOptions: SignatureOptions): SignatureVerifier {
+  return signatureOptions.mode === SignedMessageMode.METAMASK
+    ? new MetamaskSignatureVerifier(signatureOptions)
+    : new WaveSignatureVerifier(signatureOptions)
 }

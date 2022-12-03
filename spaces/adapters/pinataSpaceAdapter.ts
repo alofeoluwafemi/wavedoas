@@ -1,11 +1,10 @@
 import PinataClient from '@pinata/sdk'
 import pinataSDK from '@pinata/sdk'
-import { SignatureVerifier } from 'spaces/adapters/signatureVerifier'
-import { SpaceCreateParams, SpaceWriterDb } from 'spaces/logic/spaceWriter'
-import { Space, SpaceListItem } from 'spaces/dto/space'
-import axios from 'axios'
+import { SpaceWriterDb } from 'spaces/logic/spaceWriter'
+import { DbSpace } from 'spaces/dto/space'
 import { PINATA_API_KEY, PINATA_API_SECRET_KEY } from 'constants/pinata'
 import { SpaceReaderDb } from 'spaces/logic/spaceReader'
+import { loadFilesByHash } from 'utilities/pinata'
 
 export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
   private readonly pinata
@@ -14,7 +13,7 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
     this.pinata = pinata
   }
 
-  async list(): Promise<SpaceListItem[]> {
+  async list(): Promise<DbSpace[]> {
     const response = await this.pinata.pinList({
       status: 'pinned',
       metadata: {
@@ -27,23 +26,22 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
       },
     })
 
-    return response.rows.map((row) => {
-      // @ts-ignore
-      const keyvalues: { [key: string]: string | number | null } = row.metadata?.keyvalues
-      const signature = keyvalues?.signature ? JSON.parse(keyvalues.signature as string) : ''
-
-      return {
-        name: keyvalues?.name as string,
-        slug: keyvalues?.slug as string,
-        logo: keyvalues?.logo as string,
-        controller: signature?.signer as string,
-        membersCount: keyvalues?.membersCount as number,
-      }
-    })
+    const fetchPromises = response.rows.map((row) => loadFilesByHash(row.ipfs_pin_hash))
+    return Promise.all(fetchPromises)
   }
 
-  async find(slug: string): Promise<Space> {
-    const response = await this.pinata.pinList({
+  async find(slug: string): Promise<DbSpace | null> {
+    const response = await this.findBySlug(slug)
+
+    if (response.rows.length === 0) {
+      return null
+    }
+
+    return await loadFilesByHash(response.rows[0].ipfs_pin_hash)
+  }
+
+  private findBySlug(slug: string) {
+    return this.pinata.pinList({
       status: 'pinned',
       metadata: {
         keyvalues: {
@@ -58,53 +56,38 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
         },
       },
     })
-
-    console.log(response.rows[0])
-    return await this.loadFilesByHash(response.rows[0].ipfs_pin_hash)
   }
 
-  private async loadFilesByHash(hash: string) {
-    const response = await axios({
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
+  async update(space: DbSpace): Promise<DbSpace> {
+    await this.save(space)
+    await this.delete(space.data.slug)
+
+    return space
+  }
+
+  async save(space: DbSpace): Promise<DbSpace> {
+    const response = await this.pinata.pinJSONToIPFS(space.data, {
+      pinataMetadata: {
+        name: space.data.slug as string,
       },
-      url: `https://gateway.pinata.cloud/ipfs/${hash}`,
     })
 
-    console.log(response.data)
-    console.log(hash)
-    return response.data
-  }
-
-  async save(input: SpaceCreateParams, signatureVerifier: SignatureVerifier) {
-    const options = {
-      pinataMetadata: {
-        name: input.slug as string,
-      },
-    }
-    const response = await this.pinata.pinJSONToIPFS(input, options)
-
     const metadata = {
-      name: input.slug,
+      name: space.data.slug,
       keyvalues: {
-        slug: input.slug as string,
-        name: input.name as string,
-        logo: input.logo ?? '',
+        slug: space.data.slug,
+        name: space.data.name,
+        logo: space.data.logo,
         kind: 'space',
         membersCount: 0,
-        updatedAt: response.Timestamp,
-        signature: JSON.stringify({
-          message: signatureVerifier.message,
-          signer: signatureVerifier.signer,
-          signature: signatureVerifier.signature,
-          mode: signatureVerifier.mode,
-        }),
+        updatedAt: Date.now(),
       },
     }
 
     // @ts-ignore
     await this.pinata.hashMetadata(response.IpfsHash, metadata)
+
+    return space
   }
 
   async generateSlug(name: string) {
@@ -129,5 +112,11 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
 
   static makeFromPinataSdk(): PinataSpaceAdapter {
     return new this(new pinataSDK(PINATA_API_KEY, PINATA_API_SECRET_KEY))
+  }
+
+  private async delete(slug: string) {
+    const response = await this.findBySlug(slug)
+    const resp = await this.pinata.unpin(response.rows[0].ipfs_pin_hash)
+    console.log(resp)
   }
 }

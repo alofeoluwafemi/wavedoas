@@ -1,4 +1,4 @@
-import { Space, SpaceListItem } from 'spaces/dto/space'
+import { DbSpace, dbSpaceToSpace, Space, SpaceListItem } from 'spaces/dto/space'
 
 export class SpaceNotFoundError extends Error {
   constructor() {
@@ -7,8 +7,9 @@ export class SpaceNotFoundError extends Error {
 }
 
 export interface SpaceReaderDb {
-  find(slug: string): Promise<Space>
-  list(): Promise<SpaceListItem[]>
+  find(slug: string): Promise<DbSpace | null>
+
+  list(): Promise<DbSpace[]>
 }
 
 export class SpaceReader {
@@ -23,10 +24,25 @@ export class SpaceReader {
       throw new SpaceNotFoundError()
     }
 
-    return await this.dbReader.find(slug)
+    const dbSpace = await this.dbReader.find(slug)
+
+    if (!dbSpace) {
+      throw new SpaceNotFoundError()
+    }
+
+    return dbSpaceToSpace(dbSpace)
   }
 
   async list(): Promise<SpaceListItem[]> {
-    return await this.dbReader.list()
+    const dbSpaces = await this.dbReader.list()
+    return dbSpaces.map(
+      (space): SpaceListItem => ({
+        name: space.data.name,
+        slug: space.data.slug,
+        controller: space.data.controller,
+        logo: space.data.logo as string,
+        membersCount: space.members.length,
+      })
+    )
   }
 }
