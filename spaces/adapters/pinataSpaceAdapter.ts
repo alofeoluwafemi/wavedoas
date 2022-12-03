@@ -77,7 +77,7 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
       keyvalues: {
         slug: space.data.slug,
         name: space.data.name,
-        logo: space.data.logo,
+        logo: space.data.logo ?? '',
         kind: 'space',
         membersCount: 0,
         updatedAt: Date.now(),
