@@ -66,7 +66,7 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
   }
 
   async save(space: DbSpace): Promise<DbSpace> {
-    const response = await this.pinata.pinJSONToIPFS(space.data, {
+    const response = await this.pinata.pinJSONToIPFS(space, {
       pinataMetadata: {
         name: space.data.slug as string,
       },
