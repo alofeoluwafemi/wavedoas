@@ -19,6 +19,10 @@ export type DbSpace = {
   proposals: DbProposal[]
   members: string[]
   signature: SignatureVerifierOptions
+  metadata: {
+    ipfsHash: string
+    updatedAt: number
+  }
 }
 
 export type Space = DbSpaceData & {

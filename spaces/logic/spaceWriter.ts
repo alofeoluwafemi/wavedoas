@@ -23,7 +23,7 @@ export interface SpaceWriterDb {
 
 export class VerifySignatureError extends Error {
   constructor() {
-    super('controller signature doesnt match')
+    super('signature doesnt match')
   }
 }
 
@@ -47,6 +47,7 @@ export class SpaceWriter {
     if (this.signatureVerifier.signer !== input.controller) throw new ControllerDidNotSign()
 
     const space: DbSpace = {
+      metadata: { ipfsHash: '', updatedAt: 0 },
       data: {
         controller: input.controller,
         admins: input.admins ?? [],

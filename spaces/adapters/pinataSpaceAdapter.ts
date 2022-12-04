@@ -37,7 +37,17 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
       return null
     }
 
-    return await loadFilesByHash(response.rows[0].ipfs_pin_hash)
+    const pin = response.rows[0]
+    const space: DbSpace | null = await loadFilesByHash(pin.ipfs_pin_hash)
+    if (!space) return null
+
+    space.metadata = {
+      ipfsHash: pin.ipfs_pin_hash,
+      // @ts-ignore
+      updatedAt: pin.metadata?.keyvalues?.updatedAt,
+    }
+
+    return space
   }
 
   private findBySlug(slug: string) {
@@ -59,8 +69,9 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
   }
 
   async update(space: DbSpace): Promise<DbSpace> {
+    const hash = space.metadata.ipfsHash
     await this.save(space)
-    await this.delete(space.data.slug)
+    await this.pinata.unpin(hash)
 
     return space
   }
@@ -72,22 +83,26 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
       },
     })
 
+    const updatedAt = Date.now()
     const metadata = {
       name: space.data.slug,
       keyvalues: {
         slug: space.data.slug,
-        name: space.data.name,
-        logo: space.data.logo ?? '',
         kind: 'space',
-        membersCount: 0,
-        updatedAt: Date.now(),
+        updatedAt: updatedAt,
       },
     }
 
     // @ts-ignore
     await this.pinata.hashMetadata(response.IpfsHash, metadata)
 
-    return space
+    return {
+      ...space,
+      metadata: {
+        ipfsHash: response.IpfsHash,
+        updatedAt: updatedAt,
+      },
+    }
   }
 
   async generateSlug(name: string) {
@@ -112,11 +127,5 @@ export class PinataSpaceAdapter implements SpaceWriterDb, SpaceReaderDb {
 
   static makeFromPinataSdk(): PinataSpaceAdapter {
     return new this(new pinataSDK(PINATA_API_KEY, PINATA_API_SECRET_KEY))
-  }
-
-  private async delete(slug: string) {
-    const response = await this.findBySlug(slug)
-    const resp = await this.pinata.unpin(response.rows[0].ipfs_pin_hash)
-    console.log(resp)
   }
 }
