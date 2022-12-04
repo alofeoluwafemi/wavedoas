@@ -1,4 +1,4 @@
-import { SignatureVerifierOptions, SignatureVerifier } from 'spaces/adapters/signatureVerifier'
+import { SignatureVerifier, SignatureVerifierOptions } from 'spaces/adapters/signatureVerifier'
 import { SpaceNotFoundError, SpaceReaderDb } from 'spaces/logic/spaceReader'
 import { VerifySignatureError } from 'spaces/logic/spaceWriter'
 import { DbSpace } from 'spaces/dto/space'
@@ -63,23 +63,41 @@ export type DbVote = {
   signature: SignatureVerifierOptions
 }
 
-export interface ProposalWriterDbWriter {
+export interface ProposalWriterDb {
   save(input: DbProposal, space: DbSpace): Promise<DbProposal>
 }
 
-export class ProposalWriter {
-  private db: ProposalWriterDbWriter
-  private signature: SignatureVerifier
-  private spaceReaderDb: SpaceReaderDb
+export interface ProposalValidator {
+  validate(input: ProposalWriterCreateInput, authors: string[]): Promise<void>
+}
 
-  constructor(signature: SignatureVerifier, dbWriter: ProposalWriterDbWriter, spaceReaderDb: SpaceReaderDb) {
+export class ProposalWriter {
+  private readonly db: ProposalWriterDb
+  private readonly signature: SignatureVerifier
+  private readonly spaceReaderDb: SpaceReaderDb
+  private readonly validator: ProposalValidator
+
+  constructor(
+    signature: SignatureVerifier,
+    dbWriter: ProposalWriterDb,
+    spaceReaderDb: SpaceReaderDb,
+    validator: ProposalValidator
+  ) {
     this.db = dbWriter
     this.signature = signature
     this.spaceReaderDb = spaceReaderDb
+    this.validator = validator
   }
 
   async create(input: ProposalWriterCreateInput) {
     if (!(await this.signature.verifyObjectMessage(input))) throw new VerifySignatureError()
+
+    const space = await this.spaceReaderDb.find(input.space)
+    if (!space) throw new SpaceNotFoundError()
+
+    const authors = space.data.admins.concat(space.data.authors).concat(space.data.controller)
+    await this.validator.validate(input, authors)
+
     const proposal: DbProposal = {
       data: {
         body: input.body,
@@ -96,9 +114,6 @@ export class ProposalWriter {
       votes: [],
       signature: this.signature.getOptions(),
     }
-
-    const space = await this.spaceReaderDb.find(input.space)
-    if (!space) throw new SpaceNotFoundError()
 
     const dbProposal = await this.db.save(proposal, space)
 

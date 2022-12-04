@@ -12,4 +12,5 @@ export enum ResponseStatusCode {
 export enum ResponseMessage {
   InternalServerError = 'Internal server error',
   NotFound = 'Not found',
+  UnprocessableEntity = 'UnprocessableEntity',
 }

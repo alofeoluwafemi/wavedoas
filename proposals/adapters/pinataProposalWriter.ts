@@ -1,8 +1,8 @@
 import { SpaceWriterDb } from 'spaces/logic/spaceWriter'
 import { DbSpace } from 'spaces/dto/space'
-import { DbProposal, ProposalWriterDbWriter } from 'proposals/logic/proposalWriter'
+import { DbProposal, ProposalWriterDb } from 'proposals/logic/proposalWriter'
 
-export class PinataProposalWriter implements ProposalWriterDbWriter {
+export class PinataProposalWriter implements ProposalWriterDb {
   private spaceWriter: SpaceWriterDb
 
   constructor(spaceWriter: SpaceWriterDb) {

@@ -6,6 +6,8 @@ import { ProposalWriter, ProposalWriterCreateInput } from 'proposals/logic/propo
 import { PinataProposalWriter } from 'proposals/adapters/pinataProposalWriter'
 import { makeVerifierFromInput } from 'utilities/signature'
 import { VerifySignatureError } from 'spaces/logic/spaceWriter'
+import { ProposalStoreValidator } from 'proposals/adapters/proposalStoreValidator'
+import { ValidationError } from 'joi'
 
 export default async function (req: NextApiRequest, resp: NextApiResponse) {
   const input: ProposalWriterCreateInput = req.body?.proposal
@@ -17,12 +19,18 @@ export default async function (req: NextApiRequest, resp: NextApiResponse) {
     const createdProposal = await new ProposalWriter(
       makeVerifierFromInput(signature),
       new PinataProposalWriter(spaceDB),
-      spaceDB
+      spaceDB,
+      new ProposalStoreValidator()
     ).create(input)
 
     return resp.status(ResponseStatusCode.Created).json(createdProposal)
   } catch (e) {
     console.log(e)
+    if (e instanceof ValidationError) {
+      return resp
+        .status(ResponseStatusCode.UnprocessableEntity)
+        .json({ message: ResponseMessage.UnprocessableEntity, data: e.details })
+    }
     if (e instanceof VerifySignatureError) {
       return resp.status(ResponseStatusCode.UnprocessableEntity).json({ message: e.message })
     }
