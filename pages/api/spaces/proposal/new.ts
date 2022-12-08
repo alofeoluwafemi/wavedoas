@@ -9,7 +9,7 @@ import { VerifySignatureError } from 'spaces/logic/spaceWriter'
 import { ProposalStoreValidator } from 'proposals/adapters/proposalStoreValidator'
 import { ValidationError } from 'joi'
 
-export default async function (req: NextApiRequest, resp: NextApiResponse) {
+const newPorposal = async function (req: NextApiRequest, resp: NextApiResponse) {
   const input: ProposalWriterCreateInput = req.body?.proposal
   const signature: SignatureVerifierOptions = req.body?.signature
 
@@ -38,3 +38,5 @@ export default async function (req: NextApiRequest, resp: NextApiResponse) {
     return resp.status(ResponseStatusCode.InternalServerError).json({ message: ResponseMessage.InternalServerError })
   }
 }
+
+export default newPorposal

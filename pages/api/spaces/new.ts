@@ -4,7 +4,7 @@ import { ResponseMessage, ResponseStatusCode } from 'constants/http'
 import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
 import { makeVerifierFromInput } from 'utilities/signature'
 
-export default async function (req: NextApiRequest, resp: NextApiResponse) {
+const newSpace = async function (req: NextApiRequest, resp: NextApiResponse) {
   if (!['POST'].includes(req.method?.toUpperCase() as string)) {
     resp.status(ResponseStatusCode.MethodNotAllowed).json({ message: 'Method Not Allowed' })
     return
@@ -26,3 +26,5 @@ export default async function (req: NextApiRequest, resp: NextApiResponse) {
     return resp.status(ResponseStatusCode.InternalServerError).json({ message: ResponseMessage.InternalServerError })
   }
 }
+
+export default newSpace

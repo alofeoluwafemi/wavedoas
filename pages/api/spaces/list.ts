@@ -4,7 +4,7 @@ import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
 import { SpaceListItem } from 'spaces/dto/space'
 import { SpaceNotFoundError, SpaceReader } from 'spaces/logic/spaceReader'
 
-export default async function (req: NextApiRequest, resp: NextApiResponse) {
+const lists = async function (req: NextApiRequest, resp: NextApiResponse) {
   if (!['GET'].includes(req.method?.toUpperCase() as string)) {
     resp.status(ResponseStatusCode.MethodNotAllowed).json({ message: 'Method Not Allowed' })
     return
@@ -24,3 +24,5 @@ export default async function (req: NextApiRequest, resp: NextApiResponse) {
     resp.status(ResponseStatusCode.InternalServerError).json({ message: ResponseMessage.InternalServerError })
   }
 }
+
+export default lists
