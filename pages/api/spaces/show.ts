@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { ResponseMessage, ResponseStatusCode } from 'constants/http'
 import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
 import { Space } from 'spaces/dto/space'
-import { SpaceNotFoundError, SpaceReader } from 'spaces/logic/spaceReader'
+import { DocumentNotFoundError, SpaceReader } from 'spaces/logic/spaceReader'
 
 const showSpace = async function (req: NextApiRequest, resp: NextApiResponse) {
   if (!['GET'].includes(req.method?.toUpperCase() as string)) {
@@ -18,7 +18,7 @@ const showSpace = async function (req: NextApiRequest, resp: NextApiResponse) {
   } catch (e) {
     console.log(e)
 
-    if (e instanceof SpaceNotFoundError) {
+    if (e instanceof DocumentNotFoundError) {
       resp.status(ResponseStatusCode.NotFound).json({ message: ResponseMessage.NotFound })
       return
     }

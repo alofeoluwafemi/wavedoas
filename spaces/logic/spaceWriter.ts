@@ -1,18 +1,33 @@
 import { SignatureVerifier } from 'spaces/adapters/signatureVerifier'
 import { DbSpace, dbSpaceToSpace, Space } from 'spaces/dto/space'
+import { Chains } from 'constants/chains'
+
+type Strategy = {
+  name: string
+  network: Chains
+  params: { [key: string]: string | number }
+}
 
 export type SpaceCreateParams = {
   name: string
   slug?: string
   description?: string
-  categories: string[]
+  categories?: string[]
   logo: string
   website?: string
   socials?: string[]
   controller: string
   admins?: string[]
   authors?: string[]
-  signedMessage: string
+  settings: {
+    strategy?: Strategy
+    erc20Balance: {
+      network: Chains
+      symbol: string
+      address: string
+      decimals: number
+    }
+  }
 }
 
 export interface SpaceWriterDb {
@@ -52,7 +67,7 @@ export class SpaceWriter {
         controller: input.controller,
         admins: input.admins ?? [],
         authors: input.authors ?? [],
-        categories: input.categories,
+        categories: input.categories ?? [],
         description: input.description as string,
         logo: input.logo as string,
         name: input.name as string,
@@ -60,7 +75,8 @@ export class SpaceWriter {
         socials: input.socials,
         website: input.website as string,
       },
-      proposals: [],
+      settings: input.settings,
+      proposals: {},
       members: [],
       signature: this.signatureVerifier.getOptions(),
     }

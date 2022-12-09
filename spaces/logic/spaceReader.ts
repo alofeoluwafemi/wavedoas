@@ -1,8 +1,8 @@
 import { DbSpace, dbSpaceToSpace, Space, SpaceListItem } from 'spaces/dto/space'
 
-export class SpaceNotFoundError extends Error {
+export class DocumentNotFoundError extends Error {
   constructor() {
-    super('Space not found')
+    super('document not found')
   }
 }
 
@@ -21,13 +21,13 @@ export class SpaceReader {
 
   async show(slug: string): Promise<Space> {
     if (!slug) {
-      throw new SpaceNotFoundError()
+      throw new DocumentNotFoundError()
     }
 
     const dbSpace = await this.dbReader.find(slug)
 
     if (!dbSpace) {
-      throw new SpaceNotFoundError()
+      throw new DocumentNotFoundError()
     }
 
     return dbSpaceToSpace(dbSpace)

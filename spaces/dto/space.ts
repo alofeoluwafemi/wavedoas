@@ -1,5 +1,6 @@
 import { SignatureVerifierOptions } from 'spaces/adapters/signatureVerifier'
 import { DbProposal, dbProposalToProposal, Proposal } from 'proposals/logic/proposalWriter'
+import { Chains } from '../../constants/chains'
 
 type DbSpaceData = {
   name: string
@@ -16,7 +17,15 @@ type DbSpaceData = {
 
 export type DbSpace = {
   data: DbSpaceData
-  proposals: DbProposal[]
+  proposals: { [key: string]: DbProposal }
+  settings: {
+    erc20Balance: {
+      network: Chains
+      symbol: string
+      address: string
+      decimals: number
+    }
+  }
   members: string[]
   signature: SignatureVerifierOptions
   metadata: {
@@ -39,6 +48,6 @@ export type SpaceListItem = {
 }
 
 export function dbSpaceToSpace(space: DbSpace): Space {
-  const proposals: Proposal[] = space.proposals.map((proposal) => dbProposalToProposal(proposal))
+  const proposals = Object.values<DbProposal>(space.proposals).map((proposal) => dbProposalToProposal(proposal))
   return { ...space.data, proposals, members: space.members }
 }

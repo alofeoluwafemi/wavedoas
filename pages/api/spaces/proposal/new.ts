@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { ResponseMessage, ResponseStatusCode } from 'constants/http'
 import { SignatureVerifierOptions } from 'spaces/adapters/signatureVerifier'
 import { PinataSpaceAdapter } from 'spaces/adapters/pinataSpaceAdapter'
-import { ProposalWriter, ProposalWriterCreateInput } from 'proposals/logic/proposalWriter'
-import { PinataProposalWriter } from 'proposals/adapters/pinataProposalWriter'
+import { ProposalWriter, ProposalWriterCreateInput, WavesTokenDistribution } from 'proposals/logic/proposalWriter'
+import { PinataProposalAdapter } from 'proposals/adapters/pinataProposalAdapter'
 import { makeVerifierFromInput } from 'utilities/signature'
 import { VerifySignatureError } from 'spaces/logic/spaceWriter'
 import { ProposalStoreValidator } from 'proposals/adapters/proposalStoreValidator'
@@ -18,9 +18,10 @@ const newPorposal = async function (req: NextApiRequest, resp: NextApiResponse) 
 
     const createdProposal = await new ProposalWriter(
       makeVerifierFromInput(signature),
-      new PinataProposalWriter(spaceDB),
+      new PinataProposalAdapter(spaceDB, spaceDB),
       spaceDB,
-      new ProposalStoreValidator()
+      new ProposalStoreValidator(),
+      new WavesTokenDistribution()
     ).create(input)
 
     return resp.status(ResponseStatusCode.Created).json(createdProposal)
