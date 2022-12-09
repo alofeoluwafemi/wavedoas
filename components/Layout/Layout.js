@@ -2,6 +2,7 @@ import React from 'react'
 import Footer from './Footer'
 import Header from './Header'
 import Sidebar from './Sidebar'
+import Head from 'next/head'
 
 const Layout = ({ children, connectWallet }) => {
   return (
