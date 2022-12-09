@@ -21,7 +21,7 @@ const Layout = ({ children, connectWallet }) => {
         <meta property="og:site_name" content="WaveDAOs" />
         <meta content="summary_large_image" name="twitter:card" />
         <meta property="og:type" content="website" />
-        <link rel="icon" href="./Logo.svg" />
+        <link rel="icon" href="./favicon.png" />
       </Head>
       <div className="h-screen flex flex-row justify-start border-none">
         <Sidebar />
