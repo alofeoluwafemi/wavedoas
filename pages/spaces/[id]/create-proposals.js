@@ -34,12 +34,12 @@ const CreateProposals = () => {
                 </div>
 
 
-                <div className=' w-full mt-3 md:mt-0  relative h-full px-5 '>
+                <div className=' w-full mt-3 md:mt-0  relative h-full px-2 lg:px-5 '>
                     <div className='flex-1 w-full mb-5'>
                         <h3  className='section__header'>Create Proposals</h3>
                     </div>
 
-                    <div className='mt-5 w-full md:w-8/12'>
+                    <div className='mt-5 w-full lg:w-8/12'>
                         <div className='space-y-5 py-6 '>
 
                                 <div className='flex flex-col gap-2'>
@@ -56,7 +56,7 @@ const CreateProposals = () => {
                                         <span className='text-sm text-[#E6E5E5]'>0/2000 characters</span>
                                     </div>
                                     
-                                    <textarea className="w-full border border-[#545252] focus:outline-none active:outline-none p-3  placeholder-text-primary bg-transparent rounded-lg textarea placeholder-text-sm text-[#8F8F8F] " aria-placeholder="Leave a note for your client" rows="4" id="description" defaultValue="Nulla interdum odio lectus quis donec nulla egestas lectus at. Risus sollicitudin venenatis vitae natoque ut netus. Sit sed a sagittis vel nibh viverra dui odio. Urna auctor mauris eu et pellentesque erat. Imperdiet dui viverra sit phasellus. ">
+                                    <textarea className="w-full border border-[#545252] focus:outline-none active:outline-none p-3  placeholder-text-primary bg-transparent rounded-lg textarea placeholder-text-sm text-[#8F8F8F] scrollbar-change" aria-placeholder="Leave a note for your client" rows="6" id="description" defaultValue="Nulla interdum odio lectus quis donec nulla egestas lectus at. Risus sollicitudin venenatis vitae natoque ut netus. Sit sed a sagittis vel nibh viverra dui odio. Urna auctor mauris eu et pellentesque erat. Imperdiet dui viverra sit phasellus. ">
                                     
                                     </textarea>
                                 </div>
@@ -75,10 +75,10 @@ const CreateProposals = () => {
                                     <div className='space-y-8  w-full gap-5'>
                                         <div>
                                             <h4 className='mb-4 text-sm  text-[#E6E5E5]'>Type</h4>
-                                            <div className='space-x-4 flex  w-full gap-5'>
+                                            <div className='lg:space-x-4 flex flex-col md:flex-row w-full gap-5'>
                                         
                                        
-                                                <div className="w-1/2">
+                                                <div className="w-full lg:w-1/2">
                                                     <label className="px-4 py-6 border border-[#545252] text-white text-sm font-medium rounded-md flex items-start justify-start form-check gap-2 cursor-pointer">
                                                         <input type="radio" name="vehicle" className="w-7 h-7 text-red-600 checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 bg-transparent"/>
 
@@ -89,7 +89,7 @@ const CreateProposals = () => {
                                                     </label>
                                                     
                                                 </div>
-                                                <div className="w-1/2">
+                                                <div className="w-full lg:w-1/2">
 
                                                     <div className="">
                                                         <label className="px-4 py-6 border border-[#545252] text-white text-sm font-medium rounded-md flex items-start justify-start form-check gap-2 cursor-pointer">
@@ -111,20 +111,20 @@ const CreateProposals = () => {
                                             <h4  className='mb-4 text-sm text-[#E6E5E5]'>Set Options</h4>
                                             <div className='space-y-4'>
                                                 <div className='flex flex-row items-center gap-2'>
-                                                    <label className='w-2/12 text-sm text-[#8F8F8F]'>Option 1</label>
-                                                    <div className='space-x-4 w-7/12'>
+                                                    <label className='w-4/12 lg:w-2/12 text-sm text-[#8F8F8F]'>Option 1</label>
+                                                    <div className='space-x-4 w-full lg:w-7/12 '>
                                                         <input type="text" className='w-full h-12 rounded-full bg-transparent text-[#8F8F8F] border border-[#545252] px-4 focus:border-[#8F8F8F] active:border-[#8F8F8F] focus:outline-none transition duration-150 ease-in-out' />
                                                     </div>
                                                 </div>
                                                 <div className='flex flex-row items-center gap-2'>
-                                                    <label className='w-2/12 text-sm text-[#8F8F8F]'>Option 2</label>
-                                                    <div className='space-x-4 w-7/12'>
+                                                    <label className='w-4/12 lg:w-2/12 text-sm text-[#8F8F8F]'>Option 2</label>
+                                                    <div className='space-x-4 w-full lg:w-7/12'>
                                                         <input type="text" className='w-full h-12 rounded-full bg-transparent text-[#8F8F8F] border border-[#545252] px-4 focus:border-[#8F8F8F] active:border-[#8F8F8F] focus:outline-none transition duration-150 ease-in-out' />
                                                     </div>
                                                 </div>
                                                 <div className='flex flex-row items-center gap-2'>
-                                                    <label className='w-2/12 text-sm text-[#8F8F8F]'>Option 3</label>
-                                                    <div className='space-x-4 w-7/12'>
+                                                    <label className='w-4/12 lg:w-2/12 text-sm text-[#8F8F8F]'>Option 3</label>
+                                                    <div className='space-x-4  w-full lg:w-7/12'>
                                                         <input type="text" className='w-full h-12 rounded-full bg-transparent text-[#8F8F8F] border border-[#545252] px-4 focus:border-[#8F8F8F] active:border-[#8F8F8F] focus:outline-none transition duration-150 ease-in-out' />
                                                     </div>
                                                 </div>
@@ -133,12 +133,12 @@ const CreateProposals = () => {
                                         </div>
                                         <div>
                                             <h4  className='mb-4 text-sm  text-[#E6E5E5]'>Voting Duration</h4>
-                                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5'>
                                                 <div className='flex flex-row items-center gap-2'>
                                                     <label className='w-3/12 text-sm text-[#8F8F8F]'>Begins</label>
-                                                    <div className='space-x-4 w-8/12'>
+                                                    <div className='space-x-4 w-9/12'>
                                                         <button className='flex items-center justify-end gap-2 h-12  px-4 py-4 w-full text-[#8F8F8F] border border-[#545252] rounded-full'>
-                                                            <span className='flex items-center justify-between w-full'>
+                                                            <span className='flex items-center justify-between w-full text-xs'>
                                                             dd/mm/yyyy
                                                                 <DropdownIcon/>
                                                             </span>
@@ -147,10 +147,10 @@ const CreateProposals = () => {
                                                     </div>
                                                 </div>
                                                 <div className='flex flex-row items-center gap-4'>
-                                                    <label className='w-3/12 text-sm text-right text-[#8F8F8F]'>Time</label>
-                                                    <div className='space-x-4 w-8/12'>
+                                                    <label className='w-3/12 text-sm lg:text-right text-[#8F8F8F]'>Time</label>
+                                                    <div className='space-x-4 w-9/12'>
                                                         <button className='flex items-center justify-end gap-2 h-12  px-4 py-4 w-full text-[#8F8F8F] border border-[#545252] rounded-full'>
-                                                            <span className='flex items-center justify-end gap-3 w-full'>
+                                                            <span className='flex items-center justify-end gap-3 w-full text-xs'>
                                                             am
                                                                 <DropdownIcon/>
                                                             </span>
@@ -160,9 +160,9 @@ const CreateProposals = () => {
                                                 </div>
                                                 <div className='flex flex-row items-center gap-2'>
                                                     <label className='w-3/12 text-sm text-[#8F8F8F] '>Ends</label>
-                                                    <div className='space-x-4 w-8/12'>
+                                                    <div className='space-x-4 w-9/12'>
                                                         <button className='flex items-center justify-end gap-2 h-12  px-4 py-4 w-full text-[#8F8F8F] border border-[#545252] rounded-full'>
-                                                            <span className='flex items-center justify-between w-full'>
+                                                            <span className='flex items-center justify-between w-full text-xs'>
                                                             dd/mm/yyyy
                                                                 <DropdownIcon/>
                                                             </span>
@@ -171,10 +171,10 @@ const CreateProposals = () => {
                                                     </div>
                                                 </div>
                                                 <div className='flex flex-row items-center gap-4'>
-                                                    <label className='w-3/12 text-sm text-right text-[#8F8F8F]'>Time</label>
-                                                    <div className='space-x-4 w-8/12'>
+                                                    <label className='w-3/12 text-sm lg:text-right text-[#8F8F8F]'>Time</label>
+                                                    <div className='space-x-4 w-9/12'>
                                                         <button className='flex items-center justify-end gap-2 h-12  px-4 py-4 w-full text-[#8F8F8F] border border-[#545252] rounded-full'>
-                                                            <span className='flex items-center justify-end gap-3 w-full'>
+                                                            <span className='flex items-center justify-end gap-3 w-full text-xs'>
                                                             am
                                                                 <DropdownIcon/>
                                                             </span>

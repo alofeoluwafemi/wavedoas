@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router';
 import Layout from '../../../../components/Layout/Layout'
 import { Tabs } from 'react-tabs'
@@ -7,11 +7,21 @@ import TabList from 'react-tabs/lib/components/TabList'
 import TabPanel from 'react-tabs/lib/components/TabPanel'
 import ReturnIcon from '../../../../components/Icons/ReturnIcon';
 import Link from 'next/link';
+import DropdownIcon from '../../../../components/Icons/DropdownIcon';
 
 const Proposals = () => {
     const router = useRouter();
     const goBack =()=>{
         router.back();
+    }
+    const [tabDropdown, setTabDropdown] = useState();
+
+
+    const handleTabDropdown = () =>{
+        console.log("clicked")
+        setTabDropdown(!tabDropdown)
+
+        
     }
   return (
     <div>
@@ -36,18 +46,64 @@ const Proposals = () => {
                     </div>            
                 </div>
                 
-                <div className=' w-full mt-3 md:mt-0  relative h-full px-5 '>
+                <div className=' w-full mt-3 md:mt-0  relative h-full px-2 lg:px-5 '>
 
 
                
 
                             <Tabs>
-                                <div className='flex items-center py-4 mb-3 flex-col lg:flex-row'>
-                                    <div className='flex-1 w-full'>
+                                <div className='flex items-center py-4 mb-3 '>
+                                    <div className='flex-1 w-full mb-0'>
                                         <h3 className='section__header'>Proposals</h3>
                                     </div>
 
-                                    <TabList className='flex flex-row items-center justify-start  tabs-header rounded-md gap-3'>
+
+                                    <div className='relative w-5/12 lg:hidden block '>
+                                        <button className="flex items-center  bg-transparent text-sm border-[#545252] border px-5 py-2 rounded-full h-12 w-full justify-center" onClick={handleTabDropdown}>
+                                            <span className='text-sm flex items-center pl-3' >
+                                                All
+                                            <DropdownIcon className="text-sm text-[#545252] "/>
+                                            </span>
+                                        </button>
+
+                                        <div className={`absolute border-none category-menu ${tabDropdown ? "show" : ""}  large-dropdown  shadow-md rounded-md w-full h-64 max-w-full scrollbar-change fade-in z-10 py-3 mt-2`}>
+                                                        
+                                        <TabList>
+
+                                            <div className=" py-4 h-full scrollbar-change overflow-y-auto space-y-2">
+
+                                                <Tab className=''>
+
+                                                    <button className={`flex items-center py-3 px-3 text-sm justify-between   w-full  hover:bg-[#545252] transition duration-200 ease-in-out  `} type="button">
+                                                        All
+                                                    </button>
+
+                                                </Tab>
+                                                <Tab className=''>
+                                                    <button className={`flex items-center py-3 px-3 text-sm justify-between  w-full  hover:bg-[#545252] transition duration-200 ease-in-out  `} type="button">
+                                                        Pending
+                                                    </button>
+                                                </Tab>
+                                                <Tab className=''>
+                                                    <button className={`flex items-center py-3 px-3 text-sm justify-between  w-full  hover:bg-[#545252] transition duration-200 ease-in-out  `} type="button">
+                                                        Active
+                                                    </button>
+                                                </Tab>
+                                                <Tab className=''>
+                                                    <button className={`flex items-center py-3 px-3 text-sm justify-between  w-full  hover:bg-[#545252] transition duration-200 ease-in-out  `} type="button">
+                                                        Closed
+                                                    </button>
+                                                </Tab>
+                                                
+                                            
+                                            </div>
+                                        </TabList>
+
+                                        </div>
+
+                                    </div>
+
+                                    <TabList className='hidden lg:flex flex-row items-center justify-start  tabs-header rounded-md gap-3'>
                                         <Tab className=''>
                                             <button className="flex items-center text-sm px-6 py-3 rounded button2 h-12">
                                                 All
@@ -74,7 +130,7 @@ const Proposals = () => {
                                 <div className='py-4'>
                                     <TabPanel>
                                         <div className=" w-full mt-3 md:mt-0  relative rounded h-full fade-in">
-                                            <div className='grid grid-cols-1 md:grid-cols-2 gap-x-7 gap-y-7'>
+                                            <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-x-7 gap-y-7'>
 
                                                     <Link href="/spaces/2/proposals/4/basic-voting">
                                                 
@@ -121,7 +177,7 @@ const Proposals = () => {
                                                                 <p className='text-xs text-[#C3C3C3] leading-5'>Egestas feugiat posuere vel diam egestas tortor eget magna elementum. Odio blandit sit egestas tellus. Volutpat gravida laoreet elementum morbi aliquam id quam lorem. Et leo sem malesuada risus a orci nullam mauris faucibus. Integer dignissim nunc odio quis..</p>
                                                             </div>
 
-                                                            <div className='flex items-center justify-between w-full mt-4'>
+                                                            <div className='flex items-center justify-between w-full mt-4 flex-wrap gap-2'>
                                                                 <span className='text-[#8F8F8F]'>3 days left</span>
                                                                 <span><span className='text-[#8F8F8F] mr-4'>End:</span> Dec 1, 2022 - 10:00am </span>
                                                             </div>
@@ -191,17 +247,17 @@ const Proposals = () => {
                                                         </div>
 
 
-                                                        <div className='flex items-start justify-start flex-row space-y-2 gap-3'>
-                                                            <p className='w-6/12 text-xs text-[#C3C3C3] leading-5 border-r border-[#545252] pr-3'>Egestas feugiat posuere vel diam egestas tortor eget magna elementum. Odio blandit sit egestas tellus. Volutpat gravida laoreet elementum morbi aliquam id quam lorem</p>
+                                                        <div className='flex items-start justify-start flex-col lg:flex-row space-y-2 gap-3'>
+                                                            <p className='w-full lg:w-6/12 text-xs text-[#C3C3C3] leading-5 lg:border-r border-[#545252] pr-3'>Egestas feugiat posuere vel diam egestas tortor eget magna elementum. Odio blandit sit egestas tellus. Volutpat gravida laoreet elementum morbi aliquam id quam lorem</p>
 
-                                                            <div className='w-6/12 flex flex-row'>
+                                                            <div className='w-full lg:w-6/12 flex flex-row '>
                                                                 
                                                                 <div className='flex items-start justify-center py-4 md:py-0'>
-                                                                <img src='/basic_voting.svg' className='h-20 w-20'/>
+                                                                    <img src='/basic_voting.svg' className='h-20 w-20'/>
                                                                 </div>
 
 
-                                                                <div className='grid grid-cols-1 gap-4 mt-3 md:mt-0 px-5 py-4 md:py-0'>
+                                                                <div className='grid grid-cols-1 gap-4 mt-0 md:mt-0 px-5 py-4 md:py-0'>
                                                                     <div className='flex items-center justify-start w-full gap-3'>
                                                                         <span className='w-2 h-2 p-1 bg-[#B869E8] rounded-full'></span>
                                                                         <span className='text-left text-xs'>For (85%)</span>
@@ -286,7 +342,7 @@ const Proposals = () => {
                                                             <p className='text-xs text-[#C3C3C3] leading-5'>Egestas feugiat posuere vel diam egestas tortor eget magna elementum. Odio blandit sit egestas tellus. Volutpat gravida laoreet elementum morbi aliquam id quam lorem. Et leo sem malesuada risus a orci nullam mauris faucibus. Integer dignissim nunc odio quis..</p>
                                                         </div>
 
-                                                        <div className='flex items-center justify-between w-full mt-4'>
+                                                        <div className='flex items-center justify-between w-full mt-4 flex-wrap gap-2'>
                                                             <span className='text-[#8F8F8F]'>3 days left</span>
                                                             <span><span className='text-[#8F8F8F] mr-4'>End:</span> Dec 1, 2022 - 10:00am </span>
                                                         </div>
@@ -317,17 +373,17 @@ const Proposals = () => {
                                                         </div>
 
 
-                                                        <div className='flex items-start justify-start flex-row space-y-2 gap-3'>
-                                                            <p className='w-6/12 text-xs text-[#C3C3C3] leading-5 border-r border-[#545252] pr-3'>Egestas feugiat posuere vel diam egestas tortor eget magna elementum. Odio blandit sit egestas tellus. Volutpat gravida laoreet elementum morbi aliquam id quam lorem</p>
+                                                        <div className='flex items-start justify-start flex-col lg:flex-row space-y-2 gap-3'>
+                                                            <p className='w-full lg:w-6/12 text-xs text-[#C3C3C3] leading-5 lg:border-r border-[#545252] pr-3'>Egestas feugiat posuere vel diam egestas tortor eget magna elementum. Odio blandit sit egestas tellus. Volutpat gravida laoreet elementum morbi aliquam id quam lorem</p>
 
-                                                            <div className='w-6/12 flex flex-row'>
+                                                            <div className='w-full lg:w-6/12 flex flex-row '>
                                                                 
                                                                 <div className='flex items-start justify-center py-4 md:py-0'>
-                                                                <img src='/basic_voting.svg' className='h-20 w-20'/>
+                                                                    <img src='/basic_voting.svg' className='h-20 w-20'/>
                                                                 </div>
 
 
-                                                                <div className='grid grid-cols-1 gap-4 mt-3 md:mt-0 px-5 py-4 md:py-0'>
+                                                                <div className='grid grid-cols-1 gap-4 mt-0 md:mt-0 px-5 py-4 md:py-0'>
                                                                     <div className='flex items-center justify-start w-full gap-3'>
                                                                         <span className='w-2 h-2 p-1 bg-[#B869E8] rounded-full'></span>
                                                                         <span className='text-left text-xs'>For (85%)</span>

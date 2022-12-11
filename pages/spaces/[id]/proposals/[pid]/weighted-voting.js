@@ -27,14 +27,14 @@ const WeightedVoting = () => {
     <div>
       <Layout>
         <div>
-                  <div className='flex items-center justify-between mb-6 flex-wrap'>
+                  <div className='flex items-center justify-between mb-6 flex-wrap gap-8'>
                     <div>
                         <button className='flex items-center bg-[#3F3F3F] gap-2 px-6 py-4 rounded-full' onClick={goBack}>
                             <ReturnIcon /> Back
                         </button> 
                     
                     </div>
-                    <div className='flex items-center justify-evenly gap-8 flex-wrap'>
+                    <div className='flex items-center justify-between gap-4 lg:gap-8 '>
 
                       <div className='flex items-center flex-row gap-3'>  
                           <img src='/spaces-img/image1.svg' className='h-14 w-14 object-cover rounded-full  '/>
@@ -43,7 +43,7 @@ const WeightedVoting = () => {
                           </div>
                       </div>
 
-                      <div className="relative  flex items-center md:justify-end font-normal  text-[#EEF0F2] leading-tight border border-[#545252] rounded-full bg-[#3F3F3F]">
+                      <div className="relative  lg:flex items-center md:justify-end font-normal  text-[#EEF0F2] leading-tight border border-[#545252] rounded-full bg-[#3F3F3F] hidden ">
                           <span className="flex items-center rounded-full text-sm  justify-start py-2 px-5 ">
                               <span className="h-2 w-4 text-green-500 rounded-full text-center">
                                   <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,15 +53,15 @@ const WeightedVoting = () => {
                               Active
                           </span>
                       </div>
-                      <div>
+                      <div className='hidden lg:block'>
                         <button className='bg-[#3F3F3F] rounded-full p-3'>
                           <ShareIcon/> 
                         </button>
                         
                       </div>
                       <div>
-                        <button className='bg-[#3F3F3F] rounded-full p-3'>
-                          <HorizontalIcon/>
+                        <button className='bg-[#3F3F3F] rounded-full p-3  '>
+                          <HorizontalIcon height="18" width="18"/>
                         </button>
                         
                       </div>
@@ -69,12 +69,24 @@ const WeightedVoting = () => {
                                 
                   </div>
 
+                  <div className='lg:hidden items-center justify-end flex'>
+                        <div className="relative flex items-center md:justify-end font-normal  text-[#EEF0F2] leading-tight border border-[#545252] rounded-full bg-[#3F3F3F]  ">
+                          <span className="flex items-center rounded-full text-sm  justify-start py-2 px-5 ">
+                              <span className="h-2 w-4 text-green-500 rounded-full text-center">
+                                  <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <circle cx="3" cy="3" r="3" fill="currentColor"/>
+                                  </svg>
+                              </span>
+                              Active
+                          </span>
+                      </div>
+                    </div>
 
-                  <div className='mt-3 w-full  md:mt-8  relative rounded h-full px-5 '>
+                  <div className='w-full md:mt-8  relative rounded h-full px-2 lg:px-5 '>
                     {/* <div className='absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block'></div> */}
 
-                    <div className='flex  py-6 w-full gap-6 relative'>
-                        <div className='  py-6 w-8/12 border-r border-[#3F3F3F] px-10'>
+                    <div className='flex  py-6 w-full gap-6 relative flex-wrap lg:flex-nowrap'>
+                        <div className='  py-6 w-full lg:w-8/12 lg:border-r border-[#3F3F3F] lg:px-10'>
                             <div className='flex items-center justify-between'>
                               <div className='grow'>
                                   <h4 className='mb-3 text-2xl text-[#E6E5E5]'>Increase Liquidity Pool Token Reserve by 1.5% before the next bull run.</h4>
@@ -94,7 +106,7 @@ const WeightedVoting = () => {
                                         <h5>Discussion URL</h5>
                                       </div>
 
-                                      <textarea className="w-full border border-[#545252] focus:outline-none active:outline-none p-3  placeholder-text-primary bg-transparent rounded-lg textarea placeholder-text-sm text-[#8F8F8F] " rows="5" id="description" defaultValue="Nulla interdum odio lectus quis donec nulla egestas lectus at. Risus sollicitudin venenatis vitae natoque ut netus. Sit sed a sagittis vel nibh viverra dui odio. Urna auctor mauris eu et pellentesque erat. Imperdiet dui viverra sit phasellus. ">
+                                      <textarea className="w-full border border-[#545252] focus:outline-none active:outline-none p-3  placeholder-text-primary bg-transparent rounded-lg textarea placeholder-text-sm text-[#8F8F8F] scrollbar-change " rows="6" id="description" defaultValue="Nulla interdum odio lectus quis donec nulla egestas lectus at. Risus sollicitudin venenatis vitae natoque ut netus. Sit sed a sagittis vel nibh viverra dui odio. Urna auctor mauris eu et pellentesque erat. Imperdiet dui viverra sit phasellus. ">
                                       
                                       </textarea>
                                   </div>
@@ -225,7 +237,7 @@ const WeightedVoting = () => {
 
 
                         </div>
-                        <div className='w-4/12'>
+                        <div className='w-full lg:w-4/12'>
                           {/* weighted-voting */}
                           <div className='weighted-voting space-y-9'>
                             <div className=' p-4   transition-all duration-200 ease-linear text-sm'>
@@ -357,7 +369,7 @@ const WeightedVoting = () => {
 
             <div className="flex flex-col gap-4 mt-5 w-full">
               <button
-                className="button1 px-9 py-3 border border-[#545252] pl-36 text-white rounded-full flex items-center justify-start gap-5"
+                className="button1 px-9 py-3 border border-[#545252] text-white rounded-full flex items-center justify-center gap-5"
                 type="button"
                 onClick={goBack}
               >

@@ -27,21 +27,25 @@ const SpaceDetail = () => {
     <div>
         <Layout>
             <div>
-                <div>
+                <div className='flex items-center justify-between'>
                    <button className='flex items-center bg-[#3F3F3F] gap-2 px-6 py-4 rounded-full' onClick={goBack}>
                         <ReturnIcon /> Back
-                    
                     </button> 
-                
+
+                    <button className='text-[#CF95F2] flex items-center flex-row gap-2 lg:hidden'>
+                        <EditIcon />
+                        Edit Space
+                    </button>
+
                 </div>
 
 
-                <div className=' w-full mt-3 md:mt-0  relative rounded h-full px-5 '>
+                <div className=' w-full mt-3 md:mt-0  relative rounded h-full px-3 '>
                     {/* <div className='absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block'></div> */}
 
-                    <div className='flex  py-6 w-full gap-6 relative'>
-                        <div className=' mt-9 py-6 w-8/12 border-r border-[#3F3F3F] px-10 space-detail'>
-                            <div className='flex items-center justify-between'>
+                    <div className='flex flex-wrap lg:flex-nowrap py-6 w-full gap-6 relative'>
+                        <div className=' mt-9 py-6 w-full lg:w-8/12 lg:border-r border-[#3F3F3F] lg:px-4 xl:px-10 space-detail'>
+                            <div className='flex lg:items-center justify-between flex-col lg:flex-row'>
                                 <div className='flex items-center flex-row gap-3'>
                                         
                                         <div className='h-14 w-14'>
@@ -55,10 +59,17 @@ const SpaceDetail = () => {
                                 </div>
                                 
                                 <div>
-                                    <button className='text-[#CF95F2] flex items-center flex-row gap-3'>
+                                    <button className='text-[#CF95F2]  items-center flex-row gap-3 hidden lg:flex'>
                                         <EditIcon />
-                                        Edit
+                                        Edit Space
                                     </button>
+
+                                    <div className='flex flex-col my-4 lg:hidden'>
+                                        <Link href="/spaces/2/proposals" className='rounded-full  text-center py-3 mb-2 w-full block text-[#CF95F2] underline lg:hidden' >View all Proposals</Link>
+                                        <Link href="/spaces/2/create-proposals" className='w-full rounded-full bg-[#736C77] text-white py-3 block text-center lg:hidden px-5'>Create Proposals</Link>
+                                    </div>
+                                    
+
                                 </div>
                             </div>
 
@@ -68,14 +79,14 @@ const SpaceDetail = () => {
                                     
                                     <div>
                                         <label className='flex flex-col gap-3'>Description of space</label>
-                                        <textarea className="w-full border border-[#3F3F3F] focus:outline-none active:outline-none p-3  placeholder-text-primary bg-transparent rounded-lg textarea placeholder-text-sm text-[#8F8F8F] " aria-placeholder="Leave a note for your client" rows="5" id="description" defaultValue="Nulla interdum odio lectus quis donec nulla egestas lectus at. Risus sollicitudin venenatis vitae natoque ut netus. Sit sed a sagittis vel nibh viverra dui odio. Urna auctor mauris eu et pellentesque erat. Imperdiet dui viverra sit phasellus. ">
+                                        <textarea className="scrollbar-change w-full border border-[#3F3F3F] focus:outline-none active:outline-none p-3  placeholder-text-primary bg-transparent rounded-lg textarea placeholder-text-sm text-[#8F8F8F] " aria-placeholder="Leave a note for your client" rows="5" id="description" defaultValue="Nulla interdum odio lectus quis donec nulla egestas lectus at. Risus sollicitudin venenatis vitae natoque ut netus. Sit sed a sagittis vel nibh viverra dui odio. Urna auctor mauris eu et pellentesque erat. Imperdiet dui viverra sit phasellus. ">
                                         
                                         </textarea>
                                     </div>
 
                                     <div className='flex flex-col gap-2'>
                                         <label>Category</label>
-                                        <div className='space-x-4'>
+                                        <div className='space-x-4 flex flex-wrap gap-2'>
                                             <button className="px-8 py-4 bg-[#3F3F3F] text-white text-sm font-medium rounded-full uppercase">
                                                 Art
                                             </button>
@@ -104,12 +115,24 @@ const SpaceDetail = () => {
                                        <h5>Controller address</h5>
                                         <p className='text-xs text-[#8F8F8F]'>The user account with control over the spaces settings is the space controller. </p> 
                                     </div>
+                                        <div className="relative rounded-full flex-1 bg-transparent items-center grow flex h-14 w-full">
+                                            <div className="absolute inset-y-0 left-0 px-3 flex items-center pointer-events-none h-full">
+                                            <span className="px-3 w-14 h-14">
+                                                <img src="/spaces-img/image3.svg" className="w-full h-full" />
+                                            </span>
+                                            </div>
+                                            <input 
+                                            type="text"
+                                            className=" py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-white" defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"
+                                            />
+                                        </div>
 
-                                    <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 '>
+
+                                    {/* <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 w-full'>
 
                                         <img src='/spaces-img/image3.svg' className='h-8 w-8'/>
-                                        0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
-                                    </div>
+                                        
+                                    </div> */}
 
                                     <div  className='w-full relative border border-[#545252] rounded-lg py-3  '>
                                         <button className='flex items-center justify-between  px-4 py-4 w-full text-white'>
@@ -121,12 +144,11 @@ const SpaceDetail = () => {
                                         <div className='px-4 py-2'>
                                             <div className='pb-3 text-sm text-[#E6E5E5]'>Address</div>
                                             
-                                            <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 mb-3 text-sm'>
-
-                                                0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
+                                            <div className='mb-3'>
+                                                    <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out text-sm' defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"/>
                                             </div>
-                                            <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm '>
-                                                0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
+                                            <div className='mb-3'>
+                                                    <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out text-sm' defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"/>
                                             </div>
                                         </div>
                                     </div>
@@ -140,20 +162,19 @@ const SpaceDetail = () => {
                                         <div className='px-4 py-2'>
                                             <div className='pb-3 text-sm text-[#E6E5E5]'>Address</div>
                                             
-                                            {/* <div className='flex items-center justify-start gap-3 rounded-full mb-3 text-sm'>
-                                                
-                                                <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#8F8F8F] active:border-[#8F8F8F] focus:outline-none transition duration-150 ease-in-out' defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"/>
-
+                                            
+                                            <div className='mb-3'>
+                                                    <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out text-sm' defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"/>
+                                            </div>
+                                            <div className='mb-3'>
+                                                    <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out text-sm' defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"/>
+                                            </div>
+                                            <div className='mb-3'>
+                                                    <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out text-sm' defaultValue="0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223"/>
+                                            </div>
+                                            {/* <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm mb-3 '>
+                                                0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
                                             </div> */}
-                                            <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm mb-3 '>
-                                                0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
-                                            </div>
-                                            <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm mb-3 '>
-                                                0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
-                                            </div>
-                                            <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm '>
-                                                0x6tRtdgji7644780bxsdgi098rewwdgi09986hgdwq4t7v223
-                                            </div>
                                         </div>
                                     </div>
 
@@ -169,23 +190,48 @@ const SpaceDetail = () => {
                                         <div className='px-4 py-2 space-y-6'>
                                             <div>
                                                 <div className='pb-3 text-sm text-[#E6E5E5]'>GitHub</div>
-                                                <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm'>
-                                                    <img src='/github.svg' className='h-8 w-8'/>
-                                                    https://githubbook.com
+                                                <div className="relative rounded-full flex-1 bg-transparent items-center grow flex h-14 w-full">
+                                                    <div className="absolute inset-y-0 left-0 px-3 flex items-center pointer-events-none h-full">
+                                                    <span className="px-3 w-14 h-14">
+                                                        <img src="/github.svg" className="w-full h-full" />
+                                                    </span>
+                                                    </div>
+                                                    <input 
+                                                    type="text"
+                                                    className=" py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-white" defaultValue="https://githubbook.com"
+                                                    />
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='pb-3 text-sm text-[#E6E5E5]'>Twitter</div>
-                                                <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm'>
+                                                <div className="relative rounded-full flex-1 bg-transparent items-center grow flex h-14 w-full">
+                                                    <div className="absolute inset-y-0 left-0 px-3 flex items-center pointer-events-none h-full">
+                                                    <span className="px-3 w-14 h-14">
+                                                        <img src="/twitter.svg" className="w-full h-full" />
+                                                    </span>
+                                                    </div>
+                                                    <input 
+                                                    type="text"
+                                                    className=" py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-white" defaultValue="https://letsgoon.com"
+                                                    />
+                                                </div>
+                                                {/* <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm'>
                                                     <img src='/twitter.svg' className='h-8 w-8'/>
                                                     https://letsgoon.com
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div>
                                                 <div className='pb-3 text-sm text-[#E6E5E5]'>Discord</div>
-                                                <div className='flex items-center justify-start gap-3 rounded-full border border-[#545252] px-4 py-3 text-sm '>
-                                                    <img src='/discord.svg' className='h-8 w-8'/>
-                                                    https://letsgoon.com
+                                                <div className="relative rounded-full flex-1 bg-transparent items-center grow flex h-14 w-full">
+                                                    <div className="absolute inset-y-0 left-0 px-3 flex items-center pointer-events-none h-full">
+                                                    <span className="px-3 w-14 h-14">
+                                                        <img src="/discord.svg" className="w-full h-full" />
+                                                    </span>
+                                                    </div>
+                                                    <input 
+                                                    type="text"
+                                                    className=" py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-white" defaultValue="https://letsgoon.com"
+                                                    />
                                                 </div>
                                             </div>
                                             
@@ -201,7 +247,7 @@ const SpaceDetail = () => {
                                                 <DropdownIcon/>
                                             </span>
 
-                                            <span className='text-muted text-xs text-[#A4A1A1]'>This directs voters on how to vote. You can always change it later.</span>
+                                            <span className='text-muted text-xs text-[#A4A1A1] text-left'>This directs voters on how to vote. You can always change it later.</span>
                                             
                                         </button>
 
@@ -226,8 +272,8 @@ const SpaceDetail = () => {
                                                     <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out'/>
                                                 </div>
                                             </div>
-                                            <div className='flex items-stretch w-full gap-12 h-full '>
-                                                <div className='flex flex-col h-full gap-2 w-full md:w-1/2 '>
+                                            <div className='flex items-stretch w-full gap-5 lg:gap-16   h-full flex-col md:flex-row'>
+                                                <div className='flex flex-col h-full gap-2 w-full md:w-1/2'>
                                                     <div className='flex flex-col'>
                                                         <label>Voting Delay</label>
                                                         <span className='text-[#A4A1A1] text-xs'>This states how long voting can be delayed for</span>
@@ -247,7 +293,7 @@ const SpaceDetail = () => {
                                                 </div>
                                                 <div className='flex flex-col justify-betweeen  gap-2 w-full md:w-1/2 h-full'>
                                                     <div className='flex flex-col'>
-                                                        <label>Quorum</label>
+                                                        <label>Voting Period</label>
                                                         <span className='text-[#A4A1A1] text-xs'>This states how long voting can be held for </span>
                                                     </div>
                                                     
@@ -281,7 +327,7 @@ const SpaceDetail = () => {
                                                 <DropdownIcon/>
                                             </span>
 
-                                            <span className='text-muted text-xs text-[#A4A1A1]'>This directs voters on how to vote. You can always change it later.</span>
+                                            <span className='text-muted text-xs text-[#A4A1A1] text-left'>This directs voters on how to vote. You can always change it later.</span>
                                             
                                         </button>
 
@@ -370,7 +416,7 @@ const SpaceDetail = () => {
                             </div>
 
                         </div>
-                        <div className='w-4/12'>
+                        <div className='w-full lg:w-4/12 hidden lg:block'>
                             <div className='rounded-lg p-4 border border-[#8F8F8F] sticky z-50 top-36 transition-all duration-200 ease-linear text-sm'>
                                 <h5 className=''>Proposals</h5>
 

@@ -1,37 +1,35 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import AboutIcon from '../Icons/AboutIcon'
 import ExploreIcon from '../Icons/ExploreIcon'
 import SpacesIcon from '../Icons/SpacesIcon'
-import MobileSidebar from './MobileSidebar'
 
-const Sidebar = ({showMobileNavbar, setShowMobileNavbar}) => {
+const MobileSidebar = ({showMobileNavbar, navbarToggler, useref}) => {
     const router = useRouter();
-    const ref = useRef();
 
-    useEffect(()=>{
-        const handler = (e) => {
-          if (showMobileNavbar && ref.current && !ref.current.contains(e.target)){
-            setShowMobileNavbar(false);
-            
-          }
-        };
-    
-        document.addEventListener("mousedown", handler);
-        document.addEventListener("touchstart", handler);
-        return() => {
-          document.removeEventListener("mousedown", handler);
-          document.removeEventListener("touchstart", handler);
-        };
-      }, [showMobileNavbar]);
+  useEffect(() => {
+    const listener = (event) => {
+      // Check if the click was outside the element
+      if (!event.target.closest('.sidebar')) {
+        showMobileNavbar = false;
+      }
+    };
 
+    // Add the event listener
+    document.addEventListener('click', listener);
+
+    // Clean up the event listener on unmount
+    return () => {
+      document.removeEventListener('click', listener);
+    };
+  }, []);
 
   return (
     <>
     
-        <div className={` hidden md:block `}>
-            <div className='h-full  flex justify-between shadow-sm scrollbar-change flex-col overflow-y-auto w-60 border-r border-r-[#545252] '>
+        <div className={`md:hidden block  `} ref={useref}>
+            <div className={`h-full  flex justify-between shadow-sm scrollbar-change flex-col overflow-y-auto w-60 border-r border-r-[#545252] bg-[#373636] sidebar ${showMobileNavbar ? "show": ""}`}>
                 <div className='h-full flex flex-col justify-between'>
                     <div>
 
@@ -101,15 +99,9 @@ const Sidebar = ({showMobileNavbar, setShowMobileNavbar}) => {
             </div>
             
         </div>
-        
-        
-
-        {
-            showMobileNavbar && <MobileSidebar showMobileNavbar={showMobileNavbar} useref={ref}/>
-        }
     
     </>
   )
 }
 
-export default Sidebar
+export default MobileSidebar

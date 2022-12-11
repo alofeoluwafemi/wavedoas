@@ -45,6 +45,7 @@ body {
   background: #373636;
   border: none;
   color: #FFFFFF;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a {
@@ -352,4 +353,34 @@ textarea {
 @-ms-keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+
+
+/* mobile sidebar */
+/* .sidebar{
+
+} */
+
+.sidebar.show{
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  left: 0;
+}
+
+.sidebar{
+  z-index: 1001;
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  /* background: #fff; */
+  top: 0;
+  bottom: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  width: 275px !important;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  left: -295px;
+  box-shadow: 0px 1px 9px -3px rgb(0 0 0 / 75%);
+
 }

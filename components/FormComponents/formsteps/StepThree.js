@@ -24,12 +24,12 @@ const StepThree = ({currentStep, steps}) => {
 
                 <form>
                     <p className="mb-2">Proposal Settings</p>
-                    <p className="text-sm text-gray-300 mb-6">
+                    <p className="text-sm  text-[#A4A1A1] mb-6">
                     This directs voters on how to vote. You can always change it
                     later.
                     </p>
                     <label>Threshold</label>
-                    <p className="text-sm text-gray-300">
+                    <p className="text-sm  text-[#A4A1A1]">
                     Minimum Voting Power required to create a proposal
                     </p>
                     <input
@@ -39,7 +39,7 @@ const StepThree = ({currentStep, steps}) => {
                     />
                     <br />
                     <label>Quorum</label>
-                    <p className="text-sm text-gray-300">
+                    <p className="text-sm  text-[#A4A1A1]">
                     Minimum number of votes necessary for a proposal to pass
                     </p>
                     <input
@@ -47,32 +47,53 @@ const StepThree = ({currentStep, steps}) => {
                     placeholder=""
                     className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
                     />
-                    <div className="flex">
-                    <div>
-                        <label>Voting Delay</label>
-                        <p className="text-sm pr-6 text-gray-300">
-                        This states how long voting can be delayed for
-                        </p>
-                        <input
-                        type="text"
-                        placeholder=""
-                        className="bg-transparent border w-4/5 h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
-                        />
+
+                    <div className='flex items-stretch w-full gap-12 h-full mb-2 flex-col md:flex-row'>
+                        <div className='flex flex-col h-full gap-2 w-full md:w-1/2 '>
+                            <div className='flex flex-col'>
+                                <label>Voting Delay</label>
+                                <span className='text-[#A4A1A1] text-sm'>This states how long voting can be delayed for</span>
+                            </div>
+                            
+                            <div className=" relative rounded-full  items-center flex w-full h-12 ">
+                                <button className=" absolute inset-y-0 right-0 px-1 flex items-center h-full " type="button">
+                                    <span className=" text-[#E6E5E5] px-2 flex items-center bg-transparent ">
+                                        Hours
+                                        <DropdownIcon/>
+
+                                    </span>
+                                </button>
+                                <input type="text" className="  py-3 block w-full pl-4 pr-28 rounded-full bg-transparent  h-full border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out" name="voting_delay" />
+                                
+                            </div>
+                        </div>
+                        <div className='flex flex-col justify-betweeen  gap-2 w-full md:w-1/2 h-full'>
+                            <div className='flex flex-col'>
+                                <label>Voting Period</label>
+                                <span className='text-[#A4A1A1] text-sm'>This states how long voting can be held for</span>
+                            </div>
+                            
+                            <div className=" relative rounded-full  items-center flex w-full h-12 ">
+                                <button className=" absolute inset-y-0 right-0 px-1 flex items-center h-full " type="button">
+                                    <span className=" text-[#E6E5E5] px-2 flex items-center bg-transparent ">
+                                        Hours
+                                        <DropdownIcon/>
+
+                                    </span>
+                                </button>
+                                <input type="text" className="  py-3 block w-full pl-4 pr-28 rounded-full bg-transparent  h-full border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out" name="voting_period" />
+                                
+                            </div>
+                            {/* <div className='space-x-4'>
+                                <input type="text" className='w-full h-12 rounded-full bg-transparent text-white border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out'/>
+                            </div> */}
+                        </div>
                     </div>
-                    <div>
-                        <label>Voting Period</label>
-                        <p className="text-sm pr-6 text-gray-300">
-                        This states how long voting can be held for{" "}
-                        </p>
-                        <input
-                        type="text"
-                        placeholder=""
-                        className="bg-transparent border w-4/5 h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
-                        />
-                    </div>
-                    </div>
+                    <br></br>
+
+
                     <p className="mb-2">Add Treasury</p>
-                    <p className="text-sm text-gray-300 mb-6">
+                    <p className="text-sm  text-[#A4A1A1] mb-6">
                     This directs voters on how to vote. You can always change it
                     later..
                     </p>
@@ -175,7 +196,7 @@ const StepThree = ({currentStep, steps}) => {
               <div className="grow">
                 <h1 className="text-2xl font-semibold mb-3">Congratulations</h1>
                 <p>Your space ( Lets go on) is live and public!!</p>
-                <p className="text-sm font-thin text-gray-300">
+                <p className="text-sm font-thin  text-[#A4A1A1]">
                   You can now start creating proposals and invite others to your
                   space
                 </p>
