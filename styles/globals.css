@@ -211,6 +211,19 @@ a {
   transform: rotateY(0deg);
 }
 
+@media only screen and (max-width: 991px) {
+
+  .flip > .front {
+    transform: rotateY(0deg);
+  }
+  .flip:hover > .front {
+    transform: rotateY(0deg);
+  }
+  .flip > .back {
+    display: none;
+  }
+}
+
 
 .button-outline{
   color: #CF95F2;
