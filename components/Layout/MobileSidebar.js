@@ -28,8 +28,8 @@ const MobileSidebar = ({showMobileNavbar, navbarToggler, useref}) => {
   return (
     <>
     
-        <div className={`md:hidden block  `} ref={useref}>
-            <div className={`h-full  flex justify-between shadow-sm scrollbar-change flex-col overflow-y-auto w-60 border-r border-r-[#545252] bg-[#373636] sidebar ${showMobileNavbar ? "show": ""}`}>
+        {/* <div className={`md:hidden block  `} > */}
+            <div className={`h-full  flex justify-between shadow-sm scrollbar-change flex-col overflow-y-auto w-60 border-r border-r-[#545252] bg-[#373636] sidebar ${showMobileNavbar ? "show": ""}`} ref={useref}>
                 <div className='h-full flex flex-col justify-between'>
                     <div>
 
@@ -98,7 +98,7 @@ const MobileSidebar = ({showMobileNavbar, navbarToggler, useref}) => {
 
             </div>
             
-        </div>
+        {/* </div> */}
     
     </>
   )
