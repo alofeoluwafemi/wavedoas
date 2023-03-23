@@ -16,21 +16,6 @@ const Spaces = () => {
     setCatDropdown(!catDropdown)
   }
 
-  const sv = async function () {
-    const crypto = require('@waves/ts-lib-crypto')
-    const userData = await signer.login()
-    const message = JSON.stringify({ name: 'Bose Dao', controller: '2rJ1AQ2M8tW5tdEyhBG55XFgg7NwuHvYVDCSScWVV7y6' })
-    console.log(userData)
-    const signature = await signer.signMessage(message)
-    const rep = crypto.verifySignature(
-      userData.publicKey,
-      [255, 255, 255, 1, ...crypto.stringToBytes(message)],
-      signature
-    )
-
-    console.log('Verify:', rep)
-  }
-
   const categories = [
     {
       id: 1,
@@ -74,9 +59,6 @@ const Spaces = () => {
     <div>
       <Layout>
         <div>
-          <button onClick={sv} className="button btn bg-[#000000] p-2">
-            Verify
-          </button>
           <div className="flex items-center justify-between">
             <h1 className="section__header">Spaces</h1>
 
@@ -187,15 +169,18 @@ const Spaces = () => {
                 <TabPanel>
                   <div className=" w-full mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
                     <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-x-12 gap-y-4">
-                      <Link href="/spaces/2" className="flip h-full">
-                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front h-full ">
-                          <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636] h-full">
+                      <Link href="/spaces/2" className="flip">
+                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front ">
+                          <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636]">
                             <div className="h-20 w-20">
-                              <img src="/spaces-img/image1.svg" className="w-full object-cover rounded-full  " />
+                              <img
+                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
+                                className="w-full object-cover rounded-full  "
+                              />
                             </div>
 
                             <div className=" mt-2">
-                              <h4 className="mb-1">Lets go on</h4>
+                              <h4 className="mb-1">Optimism Collective</h4>
                               <p className="text-[#8F8F8F]">Arts, Grant</p>
                               <p className="text-[#8F8F8F]">5k Members</p>
                             </div>
@@ -210,16 +195,19 @@ const Spaces = () => {
                             </button>
                           </div>
                         </div>
-                        <div className="lg:flex items-center text-sm w-full border border-[#545252] rounded-md back bg-[#373636] hidden">
-                          <div className="flex flex-col justify-evenly gap-2 w-full h-full p-3 py-5 ">
+                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md back bg-[#373636]">
+                          <div className="flex flex-col justify-evenly gap-2 w-full p-3 py-5 ">
                             <div className="flex items-center justify-start gap-4">
-                              <img src="/spaces-img/image1.svg" className="object-cover rounded-full h-14 w-14 " />
-                              <span className="text-lg">Lets go on</span>
+                              <img
+                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
+                                className="object-cover rounded-full h-14 w-14 "
+                              />
+                              <span className="text-lg">Optimism Collective</span>
                             </div>
 
                             <div className="">
                               <p className="text-[#8F8F8F]">
-                                Dynasty of a starter for things all being equal in a matter of space
+                                A new model for properly rewarding those who create or sustain public goods
                               </p>
                             </div>
 
@@ -244,11 +232,14 @@ const Spaces = () => {
                         <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front ">
                           <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636]">
                             <div className="h-20 w-20">
-                              <img src="/spaces-img/image2.svg" className="w-full object-cover rounded-full  " />
+                              <img
+                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
+                                className="w-full object-cover rounded-full  "
+                              />
                             </div>
 
                             <div className=" mt-2">
-                              <h4 className="mb-1">Lets go on</h4>
+                              <h4 className="mb-1">Optimism Collective</h4>
                               <p className="text-[#8F8F8F]">Arts, Grant</p>
                               <p className="text-[#8F8F8F]">5k Members</p>
                             </div>
@@ -266,13 +257,16 @@ const Spaces = () => {
                         <div className="flex items-center text-sm w-full border border-[#545252] rounded-md back bg-[#373636]">
                           <div className="flex flex-col justify-evenly gap-2 w-full p-3 py-5 ">
                             <div className="flex items-center justify-start gap-4">
-                              <img src="/spaces-img/image2.svg" className="object-cover rounded-full h-14 w-14 " />
-                              <span className="text-lg">Lets go on</span>
+                              <img
+                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
+                                className="object-cover rounded-full h-14 w-14 "
+                              />
+                              <span className="text-lg">Optimism Collective</span>
                             </div>
 
                             <div className="">
                               <p className="text-[#8F8F8F]">
-                                Dynasty of a starter for things all being equal in a matter of space
+                                A new model for properly rewarding those who create or sustain public goods
                               </p>
                             </div>
 
