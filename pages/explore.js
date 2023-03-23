@@ -100,7 +100,7 @@ const Explore = () => {
 
           <div className="flex items-center py-4 mb-3 gap-1 flex-row">
             <p className="mr-2">All Spaces</p>
-            <p className="text-sm text-gray-300">12 Space(s)</p>
+            <p className="text-sm text-gray-300">1 Space(s)</p>
           </div>
 
           <div className="flex lg:items-center w-full my-3 lg:hidden justify-evenly gap-3 flex-col lg:flex-row">
