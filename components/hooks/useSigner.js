@@ -1,6 +1,7 @@
 import { Signer } from '@waves/signer'
 import { ProviderWeb } from '@waves.exchange/provider-web'
 import { nodeInteraction } from '@waves/waves-transactions'
+import { ProviderKeeper } from '@waves/provider-keeper'
 import React, { useState, useEffect } from 'react'
 
 function useSigner() {
@@ -15,7 +16,8 @@ function useSigner() {
   useEffect(() => {
     const nodeUrl = 'https://nodes-testnet.wavesnodes.com'
     const signer = new Signer({ NODE_URL: nodeUrl })
-    const provider = new ProviderWeb('https://testnet.waves.exchange/signer/')
+    // const provider = new ProviderWeb('https://testnet.waves.exchange/signer/')
+    const provider = new ProviderKeeper()
 
     signer.setProvider(provider)
 

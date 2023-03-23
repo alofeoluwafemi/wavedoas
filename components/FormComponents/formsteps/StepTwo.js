@@ -1,11 +1,11 @@
 import React from 'react'
 import UserRemoveIcon from '../../Icons/UserRemoveIcon'
 
-const StepTwo = ({ handleClick, currentStep, steps, data }) => {
+const StepTwo = ({ handleClick, currentStep, steps, data, setData }) => {
   return (
     <>
       <div className="fade-in">
-        <form>
+        <form onSubmit={() => handleClick('next')}>
           <div className="flex items-center justify-between flex-wrap">
             <label className="">Set up Controller address</label>
 
@@ -45,7 +45,7 @@ const StepTwo = ({ handleClick, currentStep, steps, data }) => {
               <div className="flex flex-col lg:flex-row">
                 <input
                   type="text"
-                  onChange={(e) => (data.admins[0] = e.target.value)}
+                  onChange={(e) => setData({ ...data, admins: [e.target.value] })}
                   value={data?.admins ? data?.admins[0] : ''}
                   className="bg-transparent border w-full lg:w-3/4 h-12 border-[#545252]  focus:outline-none rounded-3xl px-4  py-3 text-sm"
                 />
@@ -58,8 +58,8 @@ const StepTwo = ({ handleClick, currentStep, steps, data }) => {
               <div className="flex flex-col lg:flex-row">
                 <input
                   type="text"
-                  onChange={(e) => (data.admins[1] = e.target.value)}
-                  value={data?.admins ? data?.admins[0] : ''}
+                  onChange={(e) => setData({ ...data, admins: [data.admins[0], e.target.value] })}
+                  value={data?.admins ? data?.admins[1] : ''}
                   className="bg-transparent border  w-full lg:w-3/4 h-12 border-[#545252]  focus:outline-none rounded-3xl px-4  py-3 text-sm"
                 />
                 <div className="flex items-end justify-end mt-2 lg:mt-0">
@@ -82,7 +82,7 @@ const StepTwo = ({ handleClick, currentStep, steps, data }) => {
             <div className="flex flex-col lg:flex-row mb-4">
               <input
                 type="text"
-                onChange={(e) => (data.authors[0] = e.target.value)}
+                onChange={(e) => setData({ ...data, authors: [e.target.value] })}
                 value={data?.authors ? data?.authors[0] : ''}
                 className="bg-transparent border w-full lg:w-3/4 h-12 border-[#545252]  focus:outline-none rounded-3xl px-4  py-3 text-sm"
               />
@@ -95,7 +95,7 @@ const StepTwo = ({ handleClick, currentStep, steps, data }) => {
             <div className="flex flex-col lg:flex-row">
               <input
                 type="text"
-                onChange={(e) => (data.authors[1] = e.target.value)}
+                onChange={(e) => setData({ ...data, authors: [data.authors[0], e.target.value] })}
                 value={data?.authors ? data?.authors[1] : ''}
                 className="bg-transparent border w-full lg:w-3/4 h-12 border-[#545252] text-sm focus:outline-none rounded-3xl px-4  py-3 "
               />
@@ -110,7 +110,7 @@ const StepTwo = ({ handleClick, currentStep, steps, data }) => {
             </div>
           </div>
         </form>
-        <button className="button1 button1 h-12 w-full m-auto rounded-3xl" onClick={() => handleClick('next')}>
+        <button className="button1 button1 h-12 w-full m-auto rounded-3xl" type="submit">
           Next
         </button>
       </div>

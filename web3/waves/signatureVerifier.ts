@@ -47,6 +47,13 @@ export class MetamaskSignatureVerifier extends SignatureVerifier {
 
 export class WaveSignatureVerifier extends SignatureVerifier {
   async verify(): Promise<boolean> {
+    // console.table({
+    //   signer: this.signer,
+    //   message: msg,
+    //   signature: this.signature,
+    //   msg_type: typeof this.message,
+    // })
+
     // @ts-ignore
     return verifySignature(this.signer, [255, 255, 255, 1, ...stringToBytes(this.message)], this.signature)
   }

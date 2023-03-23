@@ -11,6 +11,8 @@ const newSpace = async function (req: NextApiRequest, resp: NextApiResponse) {
   }
 
   try {
+    console.log(req.body.signature)
+
     const createdSpace = await new SpaceWriter(
       makeVerifierFromInput(req.body?.signature),
       PinataSpaceAdapter.makeFromPinataSdk()

@@ -23,7 +23,7 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
     //@Todo use this for now to avaoid passing Cloudinary free tier limits
     setData({
       ...data,
-      logo: '"http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"',
+      logo: 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png',
     })
 
     // const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dlnrf91ax/upload'
@@ -38,12 +38,12 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
     //   body: formData,
     // })
     //   .then((response) => response.json())
-    //   .then((data) => {
-    //     if (data.secure_url !== '') {
-    //       console.log(data)
+    //   .then((res) => {
+    //     if (res.secure_url !== '') {
+    //       console.log(res)
     //       setData({
     //         ...data,
-    //         logo: data.secure_url,
+    //         logo: res.secure_url,
     //       })
     //     }
     //   })
@@ -51,7 +51,7 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
     //     console.error(err)
     //     setData({
     //       ...data,
-    //       logo: '"http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"',
+    //       logo: 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png',
     //     })
     //   })
   }
@@ -61,14 +61,15 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
       <div className="fade-in">
         {/* 1 0f 3 Create a space */}
 
-        <form>
+        <form onSubmit={() => handleClick('next', data)}>
           <div className="space-y-7">
             <div className="w-full">
               <label className="text-sm text-gray-300">Name of Space</label>
               <input
                 type="text"
+                required
                 placeholder="Lets go on"
-                onChange={(e) => (data.name = e.target.value)}
+                onChange={(e) => setData({ ...data, name: e.target.value })}
                 value={data?.name}
                 className="bg-transparent border w-full text-sm h-12 border-[#545252] focus:outline-none  rounded-3xl p-3 text-[#FFFFFF]"
               />
@@ -77,8 +78,9 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
             <div className="w-full">
               <label className="text-sm text-gray-300 ">Description of Space</label>
               <input
-                onChange={(e) => (data.description = e.target.value)}
+                onChange={(e) => setData({ ...data, description: e.target.value })}
                 type="text"
+                required
                 value={data?.description}
                 placeholder="Tell us about your space. What is it about?"
                 className="bg-transparent border w-full h-12 border-[#545252] text-sm rounded-3xl px-4 py-3 text-[#FFFFFF] focus:outline-none "
@@ -90,8 +92,8 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                 <label className="text-sm text-gray-300">Select category</label>
                 <input
                   type="text"
-                  onChange={(e) => (data.category = e.target.value)}
-                  value={data?.categories ? data?.categories : ''}
+                  onChange={(e) => setData({ ...data, category: e.target.value })}
+                  value={data?.categories ? data?.categories : 'General'}
                   readOnly
                   placeholder="You can type in what category is your space?"
                   className="bg-transparent border w-full h-12 border-[#545252] text-sm rounded-3xl p-3 mb-1 focus:outline-none  "
@@ -182,10 +184,11 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
               <label className="text-sm text-gray-300">Website</label>
               <input
                 type="text"
-                onChange={(e) => (data.website = e.target.value)}
+                onChange={(e) => setData({ ...data, website: e.target.value })}
                 value={data?.website ? data?.website : ''}
-                placeholder="Paste URL of your website if any"
-                className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3 text-[#FFFFFF] text-sm focus:outline-none "
+                required
+                // placeholder="Paste URL of your website if any"
+                className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3 text-[#FFFFFF] text-sm focus:outline-none"
               />
             </div>
 
@@ -193,8 +196,9 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
               <label className="text-sm text-gray-300">Terms of service</label>
               <input
                 type="text"
-                onChange={(e) => (data.terms = e.target.value)}
+                onChange={(e) => setData({ ...data, terms: e.target.value })}
                 value={data?.terms ? data?.terms : ''}
+                required
                 placeholder="Paste URL of your terms of service if any"
                 className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3 text-[#FFFFFF] text-sm focus:outline-none "
               />
@@ -215,7 +219,7 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                   </div>
                   <input
                     placeholder="Paste URL"
-                    onChange={(e) => (data.github = e.target.value)}
+                    onChange={(e) => setData({ ...data, github: e.target.value })}
                     value={data?.github ? data?.github : ''}
                     type="text"
                     name="github_address"
@@ -237,7 +241,7 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                   <input
                     placeholder="Paste URL"
                     type="text"
-                    onChange={(e) => (data.twitter = e.target.value)}
+                    onChange={(e) => setData({ ...data, twitter: e.target.value })}
                     value={data?.twitter ? data?.twitter : ''}
                     name="twitter_address"
                     id="twitter_address"
@@ -258,7 +262,7 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                     placeholder="Paste URL"
                     type="text"
                     name="discord_address"
-                    onChange={(e) => (data.discord = e.target.value)}
+                    onChange={(e) => setData({ ...data, discord: e.target.value })}
                     value={data?.discord ? data?.discord : ''}
                     id="discord_address"
                     className="  py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-[#FFFFFF]"
@@ -267,7 +271,7 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
               </div>
             </div>
           </div>
-          <button onClick={() => handleClick('next', data)} className="button1 h-12 w-full m-auto rounded-3xl">
+          <button type="submit" className="button1 h-12 w-full m-auto rounded-3xl">
             {currentStep === steps.length - 1 ? 'Confirm' : 'Next'}
           </button>
         </form>

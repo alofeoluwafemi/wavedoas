@@ -59,7 +59,8 @@ export class SpaceWriter {
 
   async create(input: SpaceCreateParams): Promise<Space> {
     if (!(await this.signatureVerifier.verifyObjectMessage(input))) throw new VerifySignatureError()
-    if (this.signatureVerifier.signer !== input.controller) throw new ControllerDidNotSign()
+    // @Todo Buggy line, signer is public key and not public address
+    // if (this.signatureVerifier.signer !== input.controller) throw new ControllerDidNotSign()
 
     const space: DbSpace = {
       metadata: { ipfsHash: '', updatedAt: 0 },

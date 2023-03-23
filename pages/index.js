@@ -9,7 +9,6 @@ import StepThree from '../components/FormComponents/formsteps/StepThree'
 import { UseContextProvider } from '../components/contexts/NavigationContext'
 import ReturnIcon from '../components/Icons/ReturnIcon'
 import FormStepper from '../components/FormComponents/formsteps/FormStepper'
-import { ProviderWeb } from '@waves.exchange/provider-web'
 import useSigner from '../components/hooks/useSigner'
 
 const CreateSpace = () => {
@@ -17,7 +16,7 @@ const CreateSpace = () => {
   const [currentStep, setCurrentStep] = useState(1)
   const [startForm, setStartForm] = useState(false)
   const [user, signer, provider, setUser, login] = useSigner()
-  const [data, setData] = useState({})
+  const [data, setData] = useState()
 
   // const toggleConnectWalletModal = (e) => {
   //   e.preventDefault()
@@ -27,7 +26,8 @@ const CreateSpace = () => {
   const createSpace = async () => {
     const user = await signer.login()
     setUser(user)
-    setData({ ...data, controller: user?.address, admins: [], authors: [] })
+    console.log('user:', user)
+    setData({ ...data, controller: user?.address, admins: [], authors: [], public_key: user?.publicKey })
 
     setStartForm(true)
   }
@@ -67,6 +67,7 @@ const CreateSpace = () => {
             steps={steps}
             data={data}
             setData={setData}
+            signer={signer}
           />
         )
       //   case 4:
