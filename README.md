@@ -1,4 +1,6 @@
-<img width="1425" alt="Screenshot 2023-03-22 at 9 32 34 PM" src="https://user-images.githubusercontent.com/7295729/226989598-b2f775ec-aa95-468e-a36a-803b35a0d537.png">
+https://user-images.githubusercontent.com/7295729/227153531-1da73d39-3c00-4676-a7ed-2e8aecf2bcd7.mov
+
+
 
 
 WavesDaos is bringing off-chain voting to the Waves DAO ecosystem by building with the design patterns used by popular DAO systems such as snapshots and Tally.
