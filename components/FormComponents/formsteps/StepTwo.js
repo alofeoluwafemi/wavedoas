@@ -5,7 +5,7 @@ const StepTwo = ({ handleClick, currentStep, steps, data, setData }) => {
   return (
     <>
       <div className="fade-in">
-        <form onSubmit={() => handleClick('next')}>
+        <form onSubmit={() => handleClick('next', data)}>
           <div className="flex items-center justify-between flex-wrap">
             <label className="">Set up Controller address</label>
 
@@ -109,10 +109,10 @@ const StepTwo = ({ handleClick, currentStep, steps, data, setData }) => {
               </div>
             </div>
           </div>
+          <button className="button1 button1 h-12 w-full m-auto rounded-3xl" type="submit">
+            Next
+          </button>
         </form>
-        <button className="button1 button1 h-12 w-full m-auto rounded-3xl" type="submit">
-          Next
-        </button>
       </div>
     </>
   )

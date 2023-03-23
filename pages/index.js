@@ -26,7 +26,6 @@ const CreateSpace = () => {
   const createSpace = async () => {
     const user = await signer.login()
     setUser(user)
-    console.log('user:', user)
     setData({ ...data, controller: user?.address, admins: [], authors: [], public_key: user?.publicKey })
 
     setStartForm(true)
