@@ -9,12 +9,7 @@ function useSigner() {
   const [user, setUser] = useState()
 
   const login = async function () {
-    try {
-      const user = await signer.login()
-      setUser(user)
-    } catch (e) {
-      console.error('Login rejected')
-    }
+    setUser(await signer.login())
   }
 
   useEffect(() => {
@@ -28,7 +23,7 @@ function useSigner() {
     setProvider(provider)
   }, [])
 
-  return [signer, provider, user, login]
+  return [user, signer, provider, setUser, login]
 }
 
 export default useSigner

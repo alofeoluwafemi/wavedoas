@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Layout from '../components/Layout/Layout'
 import Sidebar from '../components/Layout/Sidebar'
 import Link from 'next/link'
@@ -10,15 +10,26 @@ import { UseContextProvider } from '../components/contexts/NavigationContext'
 import ReturnIcon from '../components/Icons/ReturnIcon'
 import FormStepper from '../components/FormComponents/formsteps/FormStepper'
 import { ProviderWeb } from '@waves.exchange/provider-web'
+import useSigner from '../components/hooks/useSigner'
 
 const CreateSpace = () => {
-  const [connectWallet, setConnectWallet] = useState()
+  // const [connectWallet, setConnectWallet] = useState()
   const [currentStep, setCurrentStep] = useState(1)
   const [startForm, setStartForm] = useState(false)
+  const [user, signer, provider, setUser, login] = useSigner()
+  const [data, setData] = useState({})
 
-  const toggleConnectWalletModal = (e) => {
-    e.preventDefault()
-    setConnectWallet(!connectWallet)
+  // const toggleConnectWalletModal = (e) => {
+  //   e.preventDefault()
+  //   setConnectWallet(!connectWallet)
+  // }
+
+  const createSpace = async () => {
+    const user = await signer.login()
+    setUser(user)
+    setData({ ...data, controller: user?.address, admins: [], authors: [] })
+
+    setStartForm(true)
   }
 
   const steps = [1, 2, 3]
@@ -28,66 +39,66 @@ const CreateSpace = () => {
       case 1:
         return (
           <StepOne
+            key={1}
             handleClick={handleClick}
             currentStep={currentStep}
             steps={steps}
-            // data={data}
+            data={data}
+            setData={setData}
           />
         )
       case 2:
-        return <StepTwo handleClick={handleClick} currentStep={currentStep} steps={steps} />
+        return (
+          <StepTwo
+            key={2}
+            handleClick={handleClick}
+            currentStep={currentStep}
+            steps={steps}
+            data={data}
+            setData={setData}
+          />
+        )
       case 3:
-        return <StepThree handleClick={handleClick} currentStep={currentStep} steps={steps} />
+        return (
+          <StepThree
+            key={3}
+            handleClick={handleClick}
+            currentStep={currentStep}
+            steps={steps}
+            data={data}
+            setData={setData}
+          />
+        )
       //   case 4:
       //     return <Final />;
       default:
     }
   }
 
-  const handleClick = (direction) => {
+  const handleClick = (direction, formData = {}) => {
+    console.log('handle click: passed', formData)
+    console.log('handle click: before', data)
     let newStep = currentStep
+
+    setData({ ...data, ...formData })
+
+    console.log('handle click: after', data)
 
     direction === 'next' ? newStep++ : newStep--
     // check if steps are within bounds
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep)
   }
 
-  const handleConnectWallet = () => {
-    setConnectWallet(false)
-    setStartForm(true)
-  }
+  // const handleConnectWallet = () => {
+  //   setConnectWallet(false)
+  //   setStartForm(true)
+  // }
 
   return (
     <div>
       {/* first page connect wallet */}
-      <Layout connectWallet={toggleConnectWalletModal}>
+      <Layout user={user}>
         <div className=" w-full lg:w-4/6">
-          {/* 
-                <div className='flex items-center justify-between mb-6'>
-                    <div>
-                        <button className='flex items-center bg-[#3F3F3F] gap-2 px-6 py-4 rounded-full' onClick={goBack}>
-                            <ReturnIcon /> Back
-                        </button> 
-                    
-                    </div>
-                    <div className='flex items-center flex-row gap-3'>
-                            
-                        <div className='h-14 w-14'>
-                            <img src='/spaces-img/image1.svg' className='w-full object-cover rounded-full  '/>
-                        </div>
-
-                        <div>
-                            <h4 className='mb-1'>Lets go on</h4>
-                        </div>
-                    </div>            
-                </div> */}
-          {/* {currentStep === 1 ? "" : 
-          
-            <button className='flex items-center bg-[#3F3F3F] gap-2 px-6 py-4 rounded-full' >
-                <ReturnIcon /> Back
-            </button> 
-          } */}
-
           {startForm && (
             <div className="flex items-center justify-between my-5 py-3 transition duration-200 ease-in-out">
               <div>
@@ -96,7 +107,7 @@ const CreateSpace = () => {
                 ) : (
                   <button
                     className="flex items-center bg-[#3F3F3F] gap-2 px-6 py-4 rounded-full"
-                    onClick={() => handleClick()}
+                    onClick={() => handleClick('back', {})}
                   >
                     <ReturnIcon /> Back
                   </button>
@@ -116,14 +127,14 @@ const CreateSpace = () => {
                 used by popular DAO systems. <br />
                 Create your own space right away and begin making choices!
               </p>
-              <div className="m-auto  text-center">
-                <img src="/no-money-in-wallet.svg" className="m-auto" />
+              <div className="m-auto  text-centers">
+                {/* <img src="/no-money-in-wallet.svg" className="m-auto" />
                 <p className="text-center m-4 text-gray-300 text-sm">
                   Connect waves excahnge wallet to begin making decisions
-                </p>
-                {/* <button className="button1 h-12 w-4/5 m-auto rounded-3xl" onClick={toggleConnectWalletModal}>
-                  Authenticate Wallet
-                </button> */}
+                </p> */}
+                <button className="button1 h-12 w-4/5 m-autos rounded-3xl" onClick={createSpace}>
+                  Create Space
+                </button>
               </div>
             </div>
           )}
@@ -140,7 +151,7 @@ const CreateSpace = () => {
 
           {/* Modal Boxes */}
 
-          <div className={`modal__box ${connectWallet ? 'show' : ''}`}>
+          {/* <div className={`modal__box ${connectWallet ? 'show' : ''}`}>
             <div className="modal__box-wrapper shadow-lg rounded-2xl">
               <div className="flex items-start justify-between mb-6">
                 <div className="grow">
@@ -179,7 +190,7 @@ const CreateSpace = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </Layout>
     </div>

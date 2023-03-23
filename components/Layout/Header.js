@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LockIcon from '../Icons/LockIcon'
 import ToggleIcon from '../Icons/ToggleIcon'
 import { useRouter } from 'next/router'
@@ -8,10 +8,9 @@ import MobileSidebar from './MobileSidebar'
 import useSigner from '../hooks/useSigner'
 import { func } from 'joi'
 
-const Header = ({ toggleconnectWallet, navbarToggler }) => {
-  const [signer] = useSigner()
+const Header = ({ user, navbarToggler }) => {
   const [connectWallet, setConnectWallet] = useState()
-  const [user, setUser] = useState(null)
+  const [userData, setUserData] = useState()
 
   const toggleConnectWalletModal = () => {
     setConnectWallet(!connectWallet)
@@ -21,9 +20,9 @@ const Header = ({ toggleconnectWallet, navbarToggler }) => {
     return address.slice(0, 6) + '...' + address.slice(-4)
   }
 
-  const signIn = async function () {
-    setUser(await signer.login())
-  }
+  useEffect(() => {
+    setUserData(user)
+  }, [user])
 
   const isauthenticated = true
   const router = useRouter()
@@ -40,7 +39,7 @@ const Header = ({ toggleconnectWallet, navbarToggler }) => {
           </button>
 
           {/* <div> */}
-          {isauthenticated && (router.asPath === '/spaces' || router.pathname.startsWith('/spaces')) && (
+          {user && (router.asPath === '/spaces' || router.pathname.startsWith('/spaces')) && (
             <div className="relative rounded-full flex-1 bg-[#3F3F3F] items-center grow flex h-12 w-full hidden lg:block ">
               <div className="absolute inset-y-0 left-0 px-3 flex items-center pointer-events-none h-full">
                 <span className="text-gray-500 px-3 w-22 h-22">
@@ -72,22 +71,23 @@ const Header = ({ toggleconnectWallet, navbarToggler }) => {
               {truncateAddress(user.address)}
             </button>
           ) : (
-            <button className="button1 px-7 py-3 flex justify-between items-center gap-5 rounded-full" onClick={signIn}>
-              <span>
-                <LockIcon />
-              </span>
-              Authenticate Wallet
-            </button>
+            <></>
+            // <button className="button1 px-7 py-3 flex justify-between items-center gap-5 rounded-full" onClick={signIn}>
+            //   <span>
+            //     <LockIcon />
+            //   </span>
+            //   Authenticate Wallet
+            // </button>
           )}
 
-          {/* <button className="bg-[#3F3F3F] p-3 rounded-full h-12 w-12 hidden md:block">
+          <button className="bg-[#3F3F3F] p-3 rounded-full h-12 w-12 hidden md:block">
             <img src="/sun.svg" className="h-full w-full object-cover" />
-          </button> */}
+          </button>
         </div>
       </div>
 
       {/* MODAL BOX */}
-      <div className={`modal__box ${connectWallet ? 'show' : ''}`}>
+      {/* <div className={`modal__box ${connectWallet ? 'show' : ''}`}>
         <div className="modal__box-wrapper shadow-lg rounded-2xl">
           <div className="flex items-start justify-between mb-6">
             <div className="grow">
@@ -125,7 +125,7 @@ const Header = ({ toggleconnectWallet, navbarToggler }) => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
