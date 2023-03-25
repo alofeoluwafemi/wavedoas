@@ -10,7 +10,8 @@ type DbSpaceData = {
   controller: string
   logo?: string
   website?: string
-  socials?: string[]
+  terms: string
+  socials?: {[keys: string]: string}
   admins: string[]
   authors: string[]
 }
@@ -19,6 +20,11 @@ export type DbSpace = {
   data: DbSpaceData
   proposals: { [key: string]: DbProposal }
   settings: {
+    voting_period: string,
+    voting_delay: string,
+    quorum: string,
+    threshold: string,
+    voting_token: string,
     erc20Balance: {
       network: Chains
       symbol: string
@@ -47,17 +53,6 @@ export type SpaceListItem = {
   membersCount: number
   categories: string
   description: string
-  terms: string
-  authors: string[]
-  admins: string[]
-  github: string
-  discord: string
-  twitter: string
-  voting_period: number
-  voting_delay: number
-  quorum: number
-  threshold: number
-  voting_token: string
 }
 
 export function dbSpaceToSpace(space: DbSpace): Space {

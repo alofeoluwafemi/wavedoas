@@ -15,11 +15,17 @@ export type SpaceCreateParams = {
   categories?: string[]
   logo: string
   website?: string
-  socials?: string[]
+  socials?: {[keys: string]: string}
   controller: string
   admins?: string[]
   authors?: string[]
+  terms: string
   settings: {
+    voting_period: string,
+    voting_delay: string,
+    quorum: string,
+    threshold: string,
+    voting_token: string,
     strategy?: Strategy
     erc20Balance: {
       network: Chains
@@ -75,6 +81,7 @@ export class SpaceWriter {
         slug: input.slug ?? (await this.db.generateSlug(input.name)),
         socials: input.socials,
         website: input.website as string,
+        terms: input.terms as string,
       },
       settings: input.settings,
       proposals: {},
