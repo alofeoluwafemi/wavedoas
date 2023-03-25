@@ -45,6 +45,19 @@ export type SpaceListItem = {
   controller: string
   logo: string
   membersCount: number
+  categories: string
+  description: string
+  terms: string
+  authors: string[]
+  admins: string[]
+  github: string
+  discord: string
+  twitter: string
+  voting_period: number
+  voting_delay: number
+  quorum: number
+  threshold: number
+  voting_token: string
 }
 
 export function dbSpaceToSpace(space: DbSpace): Space {

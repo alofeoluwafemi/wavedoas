@@ -42,6 +42,19 @@ export class SpaceReader {
         controller: space.data.controller,
         logo: space.data.logo as string,
         membersCount: space.members.length,
+        categories: space.data.categories,
+        description: space.data.description,
+        terms: space.data.terms,
+        authors: space.data.authors,
+        admins: space.data.admins,
+        github: space.data.github,
+        discord: space.data.discord,
+        twitter: space.data.twitter,
+        voting_period: space.data.voting_period,
+        voting_delay: space.data.voting_delay,
+        quorum: space.data.quorum,
+        threshold: space.data.threshold,
+        voting_token: space.data.voting_token,
       })
     )
   }
