@@ -77,7 +77,7 @@ const Spaces = () => {
 
   const Space = ({ index, space }) => {
     return (
-      <Link key={index} href="/spaces/2" className="flip">
+      <Link key={index} href={'/spaces/' + space.slug} className="flip">
         <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front ">
           <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636]">
             <div className="h-20 w-20">
