@@ -109,9 +109,11 @@ const SpaceDetail = () => {
                         <label>Category</label>
                         <div className="space-x-4 flex flex-wrap gap-2">
                           {space.categories &&
-                            space.categories
-                              .split(', ')
-                              .map((item) => <span className="bg-[#3F3F3F] px-4 py-2 rounded-full">{item}</span>)}
+                            space.categories.split(', ').map((item, index) => (
+                              <span key={index} className="bg-[#3F3F3F] px-4 py-2 rounded-full">
+                                {item}
+                              </span>
+                            ))}
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
@@ -456,11 +458,11 @@ const SpaceDetail = () => {
                     </div>
                   </div>
 
-                  <div className="w-full my-5 py-7">
+                  {/* <div className="w-full my-5 py-7">
                     <button className="button1 px-7 py-3 flex justify-center items-center text-center gap-5 rounded-full w-full">
                       Save
                     </button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="w-full lg:w-4/12 hidden lg:block">
                   <div className="rounded-lg p-4 border border-[#8F8F8F] sticky z-50 top-36 transition-all duration-200 ease-linear text-sm">
@@ -470,13 +472,13 @@ const SpaceDetail = () => {
                       {/* <h4 className='text-center mb-5 text-[#CF95F2]'>View all Proposals</h4> */}
 
                       <Link
-                        href="/spaces/2/proposals"
+                        href={`/spaces/${space.slug}/proposals`}
                         className="rounded-full  text-center py-3 mb-5 button-outline w-full block button-outline"
                       >
                         View all Proposals
                       </Link>
                       <Link
-                        href="/spaces/2/create-proposals"
+                        href={`/spaces/${space.slug}/create-proposals`}
                         className="w-full rounded-full bg-[#736C77] text-white py-3 block text-center"
                       >
                         Create Proposals
