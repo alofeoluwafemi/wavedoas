@@ -6,7 +6,7 @@ type DbSpaceData = {
   name: string
   slug: string
   description?: string
-  categories: string[]
+  categories: string
   controller: string
   logo?: string
   website?: string
