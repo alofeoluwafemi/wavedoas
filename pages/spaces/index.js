@@ -87,7 +87,7 @@ const Spaces = () => {
             <div className="mt-2">
               <h4 className="mb-1">{space.name}</h4>
               <p className="text-[#8F8F8F]">Arts, Grant</p>
-              <p className="text-[#8F8F8F]">{space.memberCount} Members</p>
+              <p className="text-[#8F8F8F]">{space.membersCount} Members</p>
             </div>
 
             <button
