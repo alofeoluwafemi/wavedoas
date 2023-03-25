@@ -219,8 +219,8 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                   </div>
                   <input
                     placeholder="Paste URL"
-                    onChange={(e) => setData({ ...data, github: e.target.value })}
-                    value={data?.github ? data?.github : ''}
+                    onChange={(e) => setData({ ...data, socials: { ...data.socials, github: e.target.value } })}
+                    value={data?.socials ? data?.socials?.github : ''}
                     type="text"
                     name="github_address"
                     id="github_address"
@@ -241,8 +241,8 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                   <input
                     placeholder="Paste URL"
                     type="text"
-                    onChange={(e) => setData({ ...data, twitter: e.target.value })}
-                    value={data?.twitter ? data?.twitter : ''}
+                    onChange={(e) => setData({ ...data, socials: { ...data.socials, twitter: e.target.value } })}
+                    value={data?.socials ? data?.socials?.twitter : ''}
                     name="twitter_address"
                     id="twitter_address"
                     className="  py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-[#FFFFFF]"
@@ -262,8 +262,8 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
                     placeholder="Paste URL"
                     type="text"
                     name="discord_address"
-                    onChange={(e) => setData({ ...data, discord: e.target.value })}
-                    value={data?.discord ? data?.discord : ''}
+                    onChange={(e) => setData({ ...data, socials: { ...data.socials, discord: e.target.value } })}
+                    value={data?.socials ? data?.socials?.discord : ''}
                     id="discord_address"
                     className="  py-2 block w-full pl-16 pr-7  text-sm rounded-full h-full focus:outline-none bg-transparent border border-[#545252] transition ease-in duration-200 text-[#FFFFFF]"
                   />

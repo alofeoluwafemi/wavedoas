@@ -20,16 +20,12 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
       ? data.logo
       : 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png'
 
+    // console.log(data)
+    // return false
+
     const message = JSON.stringify(data)
     const signature = await signer.signMessage(message)
 
-    const crypto = require('@waves/ts-lib-crypto')
-
-    const rep = crypto.verifySignature(data.public_key, [255, 255, 255, 1, ...crypto.stringToBytes(message)], signature)
-
-    console.log('verified: ', rep)
-
-    // return false
     let payload = {
       space: data,
       signature: {
@@ -71,8 +67,13 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
             type="text"
             placeholder="1000"
             required
-            onChange={(e) => setData({ ...data, threshold: e.target.value })}
-            value={data?.threshold ? data?.threshold : ''}
+            onChange={(e) =>
+              setData({
+                ...data,
+                settings: { ...data.settings, threshold: e.target.value },
+              })
+            }
+            value={data?.settings ? data?.settings?.threshold : ''}
             className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
           />
           <br />
@@ -82,8 +83,13 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
             type="text"
             placeholder="10000"
             required
-            onChange={(e) => setData({ ...data, quorum: e.target.value })}
-            value={data?.quorum ? data?.quorum : ''}
+            onChange={(e) =>
+              setData({
+                ...data,
+                settings: { ...data.settings, quorum: e.target.value },
+              })
+            }
+            value={data?.settings ? data?.settings?.quorum : ''}
             className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
           />
 
@@ -103,8 +109,13 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
                 </button>
                 <input
                   type="text"
-                  onChange={(e) => setData({ ...data, voting_delay: e.target.value })}
-                  value={data?.voting_delay ? data?.voting_delay : ''}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      settings: { ...data.settings, voting_delay: e.target.value },
+                    })
+                  }
+                  value={data?.settings ? data?.settings?.voting_delay : ''}
                   required
                   className="  py-3 block w-full pl-4 pr-28 rounded-full bg-transparent  h-full border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out"
                   name="voting_delay"
@@ -126,9 +137,14 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
                 </button>
                 <input
                   type="text"
-                  onChange={(e) => setData({ ...data, voting_period: e.target.value })}
                   required
-                  value={data?.voting_period ? data?.voting_period : ''}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      settings: { ...data.settings, voting_period: e.target.value },
+                    })
+                  }
+                  value={data?.settings ? data?.settings?.voting_period : ''}
                   className="  py-3 block w-full pl-4 pr-28 rounded-full bg-transparent  h-full border border-[#545252] px-4 focus:border-[#545252] active:border-[#545252] focus:outline-none transition duration-150 ease-in-out"
                   name="voting_period"
                 />
@@ -140,35 +156,54 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
           </div>
           <br></br>
 
-          {/* <p className="mb-2">Add Treasury</p>
-                    <p className="text-sm  text-[#A4A1A1] mb-6">
-                    This directs voters on how to vote. You can always change it
-                    later..
-                    </p>
-                    <label>Network</label>
-                    <br />
-                    <input
-                    type="text"
-                    placeholder=""
-                    className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3 mb-10 focus:outline-none"
-                    />
-                    <br></br>
-                    <label>Name</label>
-                    <br />
-                    <input
-                    type="text"
-                    placeholder=""
-                    className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
-                    /> */}
+          <p className="mb-2">Voting Token</p>
+          <p className="text-sm  text-[#A4A1A1] mb-6">
+            This directs voters on how to vote. You can always change it later..
+          </p>
+          <label>Name</label>
           <br />
-          <label>Voting Token Address</label>
+          <input
+            type="text"
+            onChange={(e) =>
+              setData({
+                ...data,
+                settings: { erc20Balance: { ...data.settings.erc20Balance, symbol: e.target.value } },
+              })
+            }
+            value={data?.settings ? data?.settings?.erc20Balance.symbol : ''}
+            required
+            placeholder=""
+            className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3 mb-10 focus:outline-none"
+          />
+          <br></br>
+          <label>Decimal</label>
+          <br />
+          <input
+            type="number"
+            required
+            onChange={(e) =>
+              setData({
+                ...data,
+                settings: { erc20Balance: { ...data.settings.erc20Balance, decimals: e.target.value } },
+              })
+            }
+            value={data?.settings ? data?.settings?.erc20Balance.decimals : ''}
+            className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3  mb-10 focus:outline-none"
+          />
+          <br />
+          <label>Address</label>
           <br />
           <input
             type="text"
             placeholder=""
-            onChange={(e) => setData({ ...data, voting_token: e.target.value })}
+            onChange={(e) =>
+              setData({
+                ...data,
+                settings: { erc20Balance: { ...data.settings.erc20Balance, address: e.target.value } },
+              })
+            }
+            value={data?.settings ? data?.settings?.erc20Balance.address : ''}
             required
-            value={data?.voting_token ? data?.voting_token : ''}
             className="bg-transparent border w-full h-12 border-[#545252]  rounded-3xl px-4 py-3 mb-10 focus:outline-none"
           />
           {/* <br></br>

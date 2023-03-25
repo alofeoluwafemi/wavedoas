@@ -86,7 +86,7 @@ const Spaces = () => {
 
             <div className="mt-2">
               <h4 className="mb-1">{space.name}</h4>
-              <p className="text-[#8F8F8F]">Arts, Grant</p>
+              <p className="text-[#8F8F8F]">{space.categories}</p>
               <p className="text-[#8F8F8F]">{space.membersCount} Members</p>
             </div>
 
@@ -108,9 +108,7 @@ const Spaces = () => {
             </div>
 
             <div className="">
-              <p className="text-[#8F8F8F]">
-                A new model for properly rewarding those who create or sustain public goods
-              </p>
+              <p className="text-[#8F8F8F]">{space.description}</p>
             </div>
 
             <button

@@ -42,7 +42,7 @@ export class SpaceReader {
         controller: space.data.controller,
         logo: space.data.logo as string,
         membersCount: space.members.length,
-        categories: space.data.categories.join(", "),
+        categories: space.data.categories,
         description: space.data.description as string,
       })
     )

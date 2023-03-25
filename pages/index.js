@@ -26,7 +26,21 @@ const CreateSpace = () => {
   const createSpace = async () => {
     const user = await signer.login()
     setUser(user)
-    setData({ ...data, controller: user?.address, admins: [], authors: [], public_key: user?.publicKey })
+    setData({
+      ...data,
+      controller: user?.address,
+      admins: [],
+      authors: [],
+      public_key: user?.publicKey,
+      socials: { twitter: '', discord: '', github: '' },
+      settings: {
+        erc20Balance: {
+          symbol: '',
+          address: '',
+          decimals: 2,
+        },
+      },
+    })
 
     setStartForm(true)
   }
