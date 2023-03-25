@@ -21,39 +21,39 @@ const StepOne = ({ handleClick, currentStep, steps, data, setData }) => {
     reader.readAsDataURL(file)
 
     //@Todo use this for now to avaoid passing Cloudinary free tier limits
-    setData({
-      ...data,
-      logo: 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png',
-    })
-
-    // const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dlnrf91ax/upload'
-    // const CLOUDINARY_UPLOAD_PRESET = 'k7fvlrzw'
-
-    // const formData = new FormData()
-    // formData.append('file', file)
-    // formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-
-    // fetch(CLOUDINARY_URL, {
-    //   method: 'POST',
-    //   body: formData,
+    // setData({
+    //   ...data,
+    //   logo: 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png',
     // })
-    //   .then((response) => response.json())
-    //   .then((res) => {
-    //     if (res.secure_url !== '') {
-    //       console.log(res)
-    //       setData({
-    //         ...data,
-    //         logo: res.secure_url,
-    //       })
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error(err)
-    //     setData({
-    //       ...data,
-    //       logo: 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png',
-    //     })
-    //   })
+
+    const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dlnrf91ax/upload'
+    const CLOUDINARY_UPLOAD_PRESET = 'k7fvlrzw'
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+
+    fetch(CLOUDINARY_URL, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.secure_url !== '') {
+          console.log(res)
+          setData({
+            ...data,
+            logo: res.secure_url,
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        setData({
+          ...data,
+          logo: 'http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png',
+        })
+      })
   }
 
   return (

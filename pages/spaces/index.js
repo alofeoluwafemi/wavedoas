@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs } from 'react-tabs'
 import Tab from 'react-tabs/lib/components/Tab'
 import TabList from 'react-tabs/lib/components/TabList'
@@ -11,6 +11,25 @@ import Layout from '../../components/Layout/Layout'
 const Spaces = () => {
   const [catDropdown, setCatDropdown] = useState()
   const [user, signer, provider, setUser, login] = useSigner()
+  const [spaces, setSpaces] = useState([])
+
+  useEffect(() => {
+    const getMySpaces = async () => {
+      const space = await fetch('./api/spaces/list')
+      const data = await space.json()
+
+      console.log(data[1])
+      setSpaces(data)
+    }
+
+    getMySpaces()
+
+    // const getJoinedSpaces = async () => {
+    //   const space = await fetch('https://api.spaces.haus/spaces')
+    //   const data = await space.json()
+    //   console.log(data)
+    // }
+  }, [])
 
   const handleCategoryDropdown = () => {
     setCatDropdown(!catDropdown)
@@ -55,6 +74,59 @@ const Spaces = () => {
       name: 'Social',
     },
   ]
+
+  const Space = ({ index, space }) => {
+    return (
+      <Link key={index} href="/spaces/2" className="flip">
+        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front ">
+          <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636]">
+            <div className="h-20 w-20">
+              <img src={space.logo} className="w-full object-cover rounded-full  " />
+            </div>
+
+            <div className="mt-2">
+              <h4 className="mb-1">{space.name}</h4>
+              <p className="text-[#8F8F8F]">Arts, Grant</p>
+              <p className="text-[#8F8F8F]">{space.memberCount} Members</p>
+            </div>
+
+            <button
+              className="button1 py-2 px-6 w-full text-center rounded-full mt-2 z-50 block lg:hidden"
+              onClick={(e) => {
+                e.preventDefault()
+              }}
+            >
+              Join
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md back bg-[#373636]">
+          <div className="flex flex-col justify-evenly gap-2 w-full p-3 py-5 ">
+            <div className="flex items-center justify-start gap-4">
+              <img src={space.logo} className="object-cover rounded-full h-14 w-14 " />
+              <span className="text-lg">{space.name}</span>
+            </div>
+
+            <div className="">
+              <p className="text-[#8F8F8F]">
+                A new model for properly rewarding those who create or sustain public goods
+              </p>
+            </div>
+
+            <button
+              className="button1 py-2 px-6 w-full text-center rounded-full mt-2 z-50"
+              onClick={(e) => {
+                e.preventDefault()
+              }}
+            >
+              Join
+            </button>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
   return (
     <div>
       <Layout>
@@ -169,118 +241,14 @@ const Spaces = () => {
                 <TabPanel>
                   <div className=" w-full mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
                     <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-x-12 gap-y-4">
-                      <Link href="/spaces/2" className="flip">
-                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front ">
-                          <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636]">
-                            <div className="h-20 w-20">
-                              <img
-                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
-                                className="w-full object-cover rounded-full  "
-                              />
-                            </div>
-
-                            <div className=" mt-2">
-                              <h4 className="mb-1">Optimism Collective</h4>
-                              <p className="text-[#8F8F8F]">Arts, Grant</p>
-                              <p className="text-[#8F8F8F]">5k Members</p>
-                            </div>
-
-                            <button
-                              className="button1 py-2 px-6 w-full text-center rounded-full mt-2 z-50 block lg:hidden"
-                              onClick={(e) => {
-                                e.preventDefault()
-                              }}
-                            >
-                              Join
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md back bg-[#373636]">
-                          <div className="flex flex-col justify-evenly gap-2 w-full p-3 py-5 ">
-                            <div className="flex items-center justify-start gap-4">
-                              <img
-                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
-                                className="object-cover rounded-full h-14 w-14 "
-                              />
-                              <span className="text-lg">Optimism Collective</span>
-                            </div>
-
-                            <div className="">
-                              <p className="text-[#8F8F8F]">
-                                A new model for properly rewarding those who create or sustain public goods
-                              </p>
-                            </div>
-
-                            <button
-                              className="button1 py-2 px-6 w-full text-center rounded-full mt-2 z-50"
-                              onClick={(e) => {
-                                e.preventDefault()
-                              }}
-                            >
-                              Join
-                            </button>
-                          </div>
-                        </div>
-                      </Link>
+                      {spaces.length > 0 ? spaces.map((space, index) => <Space key={index} space={space} />) : ''}
                     </div>
                   </div>
                 </TabPanel>
                 <TabPanel>
                   <div className=" w-full mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
                     <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-x-12 gap-y-4">
-                      <Link href="/spaces/2" className="flip">
-                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md front ">
-                          <div className="flex rounded-md items-center flex-col justify-center gap-4 w-full p-3 py-5 bg-[#373636]">
-                            <div className="h-20 w-20">
-                              <img
-                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
-                                className="w-full object-cover rounded-full  "
-                              />
-                            </div>
-
-                            <div className=" mt-2">
-                              <h4 className="mb-1">Optimism Collective</h4>
-                              <p className="text-[#8F8F8F]">Arts, Grant</p>
-                              <p className="text-[#8F8F8F]">5k Members</p>
-                            </div>
-
-                            <button
-                              className="button1 py-2 px-6 w-full text-center rounded-full mt-2 z-50 block lg:hidden"
-                              onClick={(e) => {
-                                e.preventDefault()
-                              }}
-                            >
-                              Join
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex items-center text-sm w-full border border-[#545252] rounded-md back bg-[#373636]">
-                          <div className="flex flex-col justify-evenly gap-2 w-full p-3 py-5 ">
-                            <div className="flex items-center justify-start gap-4">
-                              <img
-                                src="http://res.cloudinary.com/dlnrf91ax/image/upload/v1679579174/ktxrabfxvlo0lkcmld6h.png"
-                                className="object-cover rounded-full h-14 w-14 "
-                              />
-                              <span className="text-lg">Optimism Collective</span>
-                            </div>
-
-                            <div className="">
-                              <p className="text-[#8F8F8F]">
-                                A new model for properly rewarding those who create or sustain public goods
-                              </p>
-                            </div>
-
-                            <button
-                              className="button1 py-2 px-6 w-full text-center rounded-full mt-2 z-50"
-                              onClick={(e) => {
-                                e.preventDefault()
-                              }}
-                            >
-                              Join
-                            </button>
-                          </div>
-                        </div>
-                      </Link>
+                      {/* {<Space />} */}
                     </div>
                   </div>
                 </TabPanel>

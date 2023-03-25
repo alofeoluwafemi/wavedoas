@@ -23,13 +23,6 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
     const message = JSON.stringify(data)
     const signature = await signer.signMessage(message)
 
-    console.table({
-      signer: data.public_key,
-      message: message,
-      signature: signature,
-      msg_type: typeof message,
-    })
-
     const crypto = require('@waves/ts-lib-crypto')
 
     const rep = crypto.verifySignature(data.public_key, [255, 255, 255, 1, ...crypto.stringToBytes(message)], signature)
@@ -61,8 +54,8 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
         console.error(err)
       })
 
-    // setMakePublic(false)
-    // setCongrats(!congrats)
+    setMakePublic(false)
+    setCongrats(!congrats)
   }
   return (
     <>
