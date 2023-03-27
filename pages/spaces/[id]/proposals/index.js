@@ -12,6 +12,7 @@ import DropdownIcon from '../../../../components/Icons/DropdownIcon'
 const Proposals = () => {
   const [space, setSpace] = useState()
   const [proposals, setProposals] = useState()
+  const [id, setId] = useState()
 
   const router = useRouter()
   const goBack = () => {
@@ -31,17 +32,20 @@ const Proposals = () => {
   }
 
   useEffect(() => {
-    const getSpace = async () => {
-      const space = await fetch(`/api/spaces/show?slug=${router.query.id}`)
-      const data = await space.json()
+    setId(router.query.id)
+    if (id) {
+      const getSpace = async () => {
+        const space = await fetch(`/api/spaces/show?slug=${id}`)
+        const data = await space.json()
 
-      setSpace(data)
-      console.log(data.proposals)
-      setProposals(data.proposals)
+        setSpace(data)
+        console.log(data.proposals)
+        setProposals(data.proposals)
+      }
+
+      getSpace()
     }
-
-    getSpace()
-  }, [])
+  }, [id])
   return (
     <div>
       <Layout>
