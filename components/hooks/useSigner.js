@@ -16,8 +16,12 @@ function useSigner() {
   useEffect(() => {
     const nodeUrl = 'https://nodes-testnet.wavesnodes.com'
     const signer = new Signer({ NODE_URL: nodeUrl })
-    // const provider = new ProviderWeb('https://testnet.waves.exchange/signer/')
-    const provider = new ProviderKeeper()
+
+    let provider = new ProviderWeb('https://testnet.waves.exchange/signer/')
+
+    if (window.WavesKeeper) {
+      provider = new ProviderKeeper()
+    }
 
     signer.setProvider(provider)
 
