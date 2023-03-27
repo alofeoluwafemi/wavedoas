@@ -151,8 +151,8 @@ const Proposals = () => {
                     <div className=" w-full mt-3 md:mt-0  relative rounded h-full fade-in">
                       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-x-7 gap-y-7">
                         {proposals
-                          ? proposals.map((proposal) => (
-                              <Link href={`/spaces/${space.slug}/proposals/${proposal.id}/weighted-voting`}>
+                          ? proposals.map((proposal, index) => (
+                              <Link key={index} href={`/spaces/${space.slug}/proposals/${proposal.id}/weighted-voting`}>
                                 <div className="px-5 py-7 border border-[#545252] text-white text-sm font-medium rounded-lg flex items-start justify-start flex-col form-check gap-2 cursor-pointer">
                                   <div className="flex items-start flex-wrap md:flex-nowrap mb-3 gap-3">
                                     <div className="grow">
