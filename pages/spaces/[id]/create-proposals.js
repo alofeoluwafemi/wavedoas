@@ -3,10 +3,12 @@ import ReturnIcon from '../../../components/Icons/ReturnIcon'
 import Layout from '../../../components/Layout/Layout'
 import { useRouter } from 'next/router'
 import DropdownIcon from '../../../components/Icons/DropdownIcon'
+import useSigner from '../../../components/hooks/useSigner'
 
 const CreateProposals = () => {
   const [space, setSpace] = useState()
-  const [proposal, setProposal] = useState()
+  const [proposal, setProposal] = useState({})
+  const [user, signer, provider, setUser, login] = useSigner()
 
   const router = useRouter()
   const goBack = () => {
@@ -18,17 +20,64 @@ const CreateProposals = () => {
       const space = await fetch(`/api/spaces/show?slug=${router.query.id}`)
       const data = await space.json()
 
-      console.log(data)
       setSpace(data)
-      setProposal({ ...proposal, space: data.slug, type: 'Weighted', choices: ['Yes', 'No', 'Abstain'] })
+      setProposal({
+        ...proposal,
+        space: data.slug,
+        type: 'Weighted',
+        choices: ['Yes', 'No', 'Abstain'],
+        title: '',
+        body: '',
+        start: '',
+        end: '',
+      })
     }
 
     getSpace()
   }, [])
 
-  const createProposal = (e) => {
+  const createProposal = async (e) => {
     e.preventDefault()
-    console.log(proposal)
+
+    const user = await signer.login()
+    let data = proposal
+
+    data['timestamp'] = new Date().getTime() / 1000
+    data['from'] = user.address
+    data['start'] = new Date(proposal?.start).getTime() / 1000
+    data['end'] = new Date(proposal?.end).getTime() / 1000
+
+    const message = JSON.stringify(data)
+    const signature = await signer.signMessage(message)
+
+    let payload = {
+      proposal: data,
+      signature: {
+        signer: user.publicKey,
+        signature: signature,
+        mode: 'WAVE',
+      },
+    }
+
+    fetch('/api/spaces/proposal/new', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res)
+        router.push(`/spaces/${router.query.id}/proposals`)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+
+    console.log(router.query.id)
+
+    // console.log(payload)
   }
 
   return (
@@ -134,7 +183,8 @@ const CreateProposals = () => {
                                 <label className="px-4 py-6 border border-[#545252] text-white text-sm font-medium rounded-md flex items-start justify-start form-check gap-2 cursor-pointer">
                                   <input
                                     type="radio"
-                                    name="vehicle"
+                                    name="Weighted"
+                                    onChange={(e) => setProposal({ ...proposal, type: e.target.value })}
                                     checked={true}
                                     className="w-8 h-8 text-red-600 checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200"
                                   />
@@ -236,10 +286,10 @@ const CreateProposals = () => {
                                   onChange={(e) =>
                                     setProposal({
                                       ...proposal,
-                                      start: e.target.value,
+                                      end: e.target.value,
                                     })
                                   }
-                                  value={proposal?.start}
+                                  value={proposal?.end}
                                   className="w-full h-12 rounded-full bg-transparent text-[#8F8F8F] border border-[#545252] px-4 focus:border-[#8F8F8F] active:border-[#8F8F8F] focus:outline-none transition duration-150 ease-in-out"
                                 />
                               </div>

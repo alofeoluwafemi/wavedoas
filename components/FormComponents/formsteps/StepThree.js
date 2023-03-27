@@ -9,7 +9,7 @@ const StepThree = ({ currentStep, steps, data, setData, signer }) => {
 
   const toggleMakePublic = (e) => {
     e.preventDefault()
-    console.table(data)
+
     setMakePublic(!makePublic)
   }
 

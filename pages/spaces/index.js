@@ -18,7 +18,6 @@ const Spaces = () => {
       const space = await fetch('./api/spaces/list')
       const data = await space.json()
 
-      console.log(data[1])
       setSpaces(data)
     }
 
