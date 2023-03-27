@@ -24,7 +24,13 @@ const CreateSpace = () => {
   // }
 
   const createSpace = async () => {
-    const user = await signer.login()
+    let user
+    try {
+      user = await signer.login()
+    } catch (error) {
+      alert(error.message)
+      return false
+    }
     setUser(user)
     setData({
       ...data,

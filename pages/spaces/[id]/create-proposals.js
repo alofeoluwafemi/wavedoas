@@ -39,7 +39,15 @@ const CreateProposals = () => {
   const createProposal = async (e) => {
     e.preventDefault()
 
-    const user = await signer.login()
+    let user
+
+    try {
+      user = await signer.login()
+    } catch (error) {
+      alert(error.message)
+      return false
+    }
+
     let data = proposal
 
     data['timestamp'] = new Date().getTime() / 1000
