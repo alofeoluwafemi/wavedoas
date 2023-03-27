@@ -60,7 +60,7 @@ const SpaceDetail = () => {
                   <div className="flex lg:items-center justify-between flex-col lg:flex-row">
                     <div className="flex items-center flex-row gap-3">
                       <div className="h-14 w-14">
-                        <img src="/spaces-img/image1.svg" className="w-full object-cover rounded-full  " />
+                        <img src={space.logo} className="w-full object-cover rounded-full  " />
                       </div>
 
                       <div>
