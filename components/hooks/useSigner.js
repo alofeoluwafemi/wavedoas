@@ -19,8 +19,8 @@ function useSigner() {
 
     let provider = new ProviderWeb('https://testnet.waves.exchange/signer/')
 
-    console.log(window.WavesKeeper)
-    if (window.WavesKeeper) {
+    console.log(window.KeeperWallet)
+    if (window.KeeperWallet) {
       provider = new ProviderKeeper()
     }
 
