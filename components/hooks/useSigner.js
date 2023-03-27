@@ -24,6 +24,8 @@ function useSigner() {
       provider = new ProviderKeeper()
     }
 
+    console.log(provider)
+
     signer.setProvider(provider)
 
     setSigner(signer)
