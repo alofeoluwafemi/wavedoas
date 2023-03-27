@@ -239,7 +239,9 @@ const Spaces = () => {
                 <TabPanel>
                   <div className=" w-full mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
                     <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-x-12 gap-y-4">
-                      {spaces.length > 0 ? spaces.map((space, index) => <Space key={index} space={space} />) : ''}
+                      {spaces.length > 0
+                        ? spaces.map((space, index) => <Space key={index} space={space} />)
+                        : 'Fecthing spaces form IPFS Storage...'}
                     </div>
                   </div>
                 </TabPanel>

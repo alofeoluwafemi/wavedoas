@@ -12,7 +12,7 @@ export type SpaceCreateParams = {
   name: string
   slug?: string
   description?: string
-  categories?: string[]
+  categories?: string
   logo: string
   website?: string
   socials?: {[keys: string]: string}
@@ -74,7 +74,7 @@ export class SpaceWriter {
         controller: input.controller,
         admins: input.admins ?? [],
         authors: input.authors ?? [],
-        categories: input.categories ?? [],
+        categories: input.categories ?? '',
         description: input.description as string,
         logo: input.logo as string,
         name: input.name as string,
