@@ -13,14 +13,16 @@ function useSigner() {
     setUser(await signer.login())
   }
 
-  useEffect(() => {
+  const getWallet = async function () {
+    const { KeeperWallet } = window
+
     const nodeUrl = 'https://nodes-testnet.wavesnodes.com'
     const signer = new Signer({ NODE_URL: nodeUrl })
 
     let provider = new ProviderWeb('https://testnet.waves.exchange/signer/')
 
-    console.log(window.KeeperWallet)
-    if (window.KeeperWallet) {
+    console.log('Keeper: ', KeeperWallet)
+    if (KeeperWallet) {
       provider = new ProviderKeeper()
     }
 
@@ -30,6 +32,10 @@ function useSigner() {
 
     setSigner(signer)
     setProvider(provider)
+  }
+
+  useEffect(() => {
+    getWallet()
   }, [])
 
   return [user, signer, provider, setUser, login]
